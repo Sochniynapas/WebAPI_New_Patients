@@ -1,0 +1,89 @@
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-12 mb-3">
+                <div class="text-end">
+                    <button type="button" class="btn btn-success" id="writePost">Написать пост</button>
+                </div>
+            </div>
+
+            <form class="border border-secondary" style="background-color: #ffffff">
+                <div style="background-color: #dcdcdc; color: #333333;" class="p-2 border-bottom border-secondary">
+                    <h5>Фильтры</h5>
+                </div>
+
+                <div class="row m-2">
+                    <div class="col-md-6">
+                        <label for="authorName" class="form-label">Поиск по имени автора</label>
+                        <input type="text" class="form-control" id="authorName">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="tags" class="form-label">Тэги</label>
+                        <select multiple class="form-select" id="tags">
+
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="row mb-3 ms-2 me-2 align-items-end">
+                    <div class="col-md-4">
+                        <label for="sortBy" class="form-label">Сортировать по</label>
+                        <select class="form-select" id="sortBy">
+                            <option value="">--</option>
+                            <option value="CreateDesc">По дате (новые первыми)</option>
+                            <option value="CreateAsc">По дате (старые первыми)</option>
+                            <option value="LikeAsc">По лайкам (меньшие сначала)</option>
+                            <option value="LikeDesc">По лайкам (большие сначала)</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="readingTimeFrom" class="form-label">Время чтения от</label>
+                        <input type="text" class="form-control" id="readingTimeFrom">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="readingTimeTo" class="form-label">Время чтения до</label>
+                        <input type="text" class="form-control" id="readingTimeTo">
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="onlyMyGroups">
+                            <label class="form-check-label" for="onlyMyGroups">Только мои группы</label>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-primary w-100" id="getFilters">Применить</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+    </div>
+
+</div>
+<div class="container" id="own-posts">
+    <div id="posts-container"></div>
+    <div class="row m-2 justify-content-between align-items-center">
+        <div class="col-md-3">
+            <ul class="pagination mt-3 col-md-6" id="pageForm"></ul>
+        </div>
+        <div class="text-sm-end col-md-3">
+            <label for="size" class="form-label">Число постов на странице:</label>
+            <select class="form-select" id="size">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<script type="module" src="/Patients"></script>
