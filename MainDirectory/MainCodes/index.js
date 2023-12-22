@@ -12,7 +12,7 @@ const pathName = window.location.pathname;
 debugger
 switch (pathName){
     case '/':{
-        response = await fetch('/MainDirectory/index.html');
+        response = await fetch('/index.html');
         dataForResponse = await response.text();
         contentOfACard = document.getElementById('concreteCard');
         await checkUserToken();
@@ -28,7 +28,7 @@ switch (pathName){
         break;
     }
     case '/registration':{
-        response = await fetch('../RegistrationDirectory/registrationCard.html');
+        response = await fetch('RegistrationDirectory/registrationCard.html');
         dataForResponse = await response.text();
         contentOfACard = document.getElementById('concreteCard');
         contentOfACard.innerHTML = dataForResponse;
