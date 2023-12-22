@@ -11,7 +11,7 @@ function parseToken(token) {
     }
 }
 
-function isTokenValid() {
+export async function isTokenValid() {
     if(token !== null) {
         const tokenPayload = parseToken(token);
         if (!tokenPayload) {
@@ -38,7 +38,7 @@ export async function checkUserToken() {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json',
     });
-    if (isTokenValid()) {
+    if (await isTokenValid()) {
         const response = await fetch(`${getProfile}`, {
             method: 'GET',
             headers: headers,
