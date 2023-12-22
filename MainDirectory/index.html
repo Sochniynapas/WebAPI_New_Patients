@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">-->
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+
+    <script src="node_modules/@popperjs/core/dist/umd/popper.js"></script>
+    <!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>-->
+    <!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>-->
+    <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
+</head>
+<body>
+
+<div class="card-header p-2 col-md-12 d-flex align-items-center justify-content-between" style="background-color: #320095">
+    <div class="col-md-2 ms-4 d-flex justify-content-between">
+        <div class="col-md-6 fw-bold fs-2 text-white mx-3">&#128128;</div>
+        <div class="col-md-6 text-end">
+            <div class="fw-bold fs-6 text-white mx-3">Try not to</div>
+            <div class="fw-bold fs-5 text-white mx-3">DIE</div>
+        </div>
+    </div>
+    <div class="col-md-6 me-5 text-sm-end">
+        <div class="menu-container" id="loginController">
+            <div class="dropdown">
+                <button class="btn dropdown-toggle fw-bold fs-6 text-white mx-3" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false" id="dropButton">Ваш логин
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropButton">
+                    <li><a class="dropdown-item" href="/profile">Профиль</a></li>
+                    <li><a class="dropdown-item cursor-pointer" id="logoutItem">Выход</a></li>
+                </ul>
+            </div>
+        </div>
+        <div id="loginTop">
+            <a href="/login" class="fw-bold fs-6 text-white mx-3 text-decoration-none">Вход</a>
+        </div>
+    </div>
+</div>
+
+<div class="card-body" id="concreteCard">
+
+</div>
+
+
+</body>
+<script type="module" src="curls.js"></script>
+<script type="module" src="MainCodes/index.js"></script>
+<script type="module" src="MainCodes/mainFunctions.js"></script>
+</html>

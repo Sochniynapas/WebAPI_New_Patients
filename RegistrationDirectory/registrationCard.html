@@ -1,0 +1,61 @@
+<link rel="stylesheet" href="/MainDirectory/node_modules/bootstrap/dist/css/bootstrap.css">
+
+<script src="/MainDirectory/node_modules/@popperjs/core/dist/umd/popper.js"></script>
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>-->
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>-->
+<script src="/MainDirectory/node_modules/bootstrap/dist/js/bootstrap.js"></script>
+<div class="card border-secondary col-md-6 mx-auto">
+    <div class="card-body">
+        <div class="col-md-12">
+            <form id="registrationForm" class="m-3">
+                <h2 class="card-title mb-3">Регистрация</h2>
+                <div class="mb-3">
+                    <label for="fullName" class="form-label">Имя:</label>
+                    <input type="text" class="form-control" id="fullName" placeholder="Иванов Иван Иванович" required>
+                    <small id="nameError" class="text-danger" style="display: none;">Неправильный формат name</small>
+                </div>
+                <div class="d-flex align-items-center col-md-12">
+                    <div class="col-md-6 mb-3">
+                        <label for="gender" class="form-label">Пол:</label>
+                        <select class="form-select" id="gender" required>
+                            <option value="Male">Мужской</option>
+                            <option value="Female">Женский</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="birthDate" class="form-label">Дата рождения:</label>
+                        <input type="date" class="form-control" id="birthDate">
+                        <small id="dateError" class="text-danger" style="display: none;">Неправильный формат
+                            date</small>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="phoneNumber" class="form-label">Телефон:</label>
+                    <input type="tel" class="form-control" id="phoneNumber" required
+                           pattern="\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}"
+                           placeholder="+7 (xxx) xxx-xx-xx">
+                    <small id="phoneError" class="text-danger" style="display: none;">Неправильный формат phone</small>
+                </div>
+                <div>
+                    <label for="speciality" class="form-label">Специальность:</label>
+                    <select class="form-select" id="speciality" required></select>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email:</label>
+                    <input type="email" class="form-control" id="email" placeholder="name@example.com" required>
+                    <small id="emailError" class="text-danger" style="display: none;">Неправильный формат email</small>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password:</label>
+                    <input type="password" class="form-control" id="password" required>
+                    <small id="passwordError" class="text-danger" style="display: none;">Неправильный формат
+                        password</small>
+                </div>
+                <div class="mb-3">
+                    <button type="button" id="registrationButton" class="btn btn-primary w-50">Зарегистрироваться
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

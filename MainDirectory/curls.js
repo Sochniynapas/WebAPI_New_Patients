@@ -1,0 +1,1 @@
+export const getProfile = "https://mis-api.kreosoft.space/api/doctor/profile";
