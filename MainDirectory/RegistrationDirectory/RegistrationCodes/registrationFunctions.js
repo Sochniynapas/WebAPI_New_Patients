@@ -43,6 +43,42 @@ export async function getSpecialtiesList(){
         debugger
         const selectedData = $(this).select2('data')[0];
         console.log(selectedData);
+        console.log(document.getElementById('speciality').value);
     });
+
+}
+export async function userRegistration(){
+    try {
+        const formData = {
+            fullName: document.getElementById('fullName').value,
+            password: document.getElementById('password').value,
+            email: document.getElementById('email').value,
+            birthDate: document.getElementById('birthDate').value,
+            gender: document.getElementById('gender').value,
+            phoneNumber: document.getElementById('phoneNumber').value,
+            speciality: document.getElementById('speciality').value
+        };
+
+
+        const response = await fetch(`${registration}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+        })
+        const data = await response.json();
+        if(response.ok){
+            localStorage.setItem('token', data.token);
+            window.location.href = '/';
+        }
+        else {
+            throw new Error('Ошибка запроса регистрации');
+        }
+
+    }
+    catch (error){
+        console.error('Ошибка регистрации')
+    }
 
 }
