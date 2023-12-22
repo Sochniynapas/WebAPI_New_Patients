@@ -1,0 +1,59 @@
+<div class="card border-secondary bg-light shadow col-md-3 mx-auto">
+    <div class="card-body">
+        <div class="col-md-12">
+            <form id="profileForm">
+                <span class="title-text display-6 m-3 fw-bold">Профиль</span>
+
+                <div class="m-3">
+                    <label for="fullname" class="col-sm-2 col-form-label">Имя</label>
+                    <div class="col-sm-12">
+                        <input type="text" class="form-control" id="fullname">
+                        <small id="nameError" class="text-danger" style="display: none;">Неправильный формат
+                            name</small>
+                    </div>
+                </div>
+                <div class="mb-3 row d-flex justify-content-between">
+                    <div class="col-sm-5 ms-3">
+                        <label for="gender" class="col-sm-5 col-form-label">Пол:</label>
+                        <div class="col-sm-12">
+                            <select class="form-select" id="gender" required>
+                                <option value="Male">Мужской</option>
+                                <option value="Female">Женский</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-5 me-3">
+                        <label for="birthdate" class="col-sm-12 col-form-label">Дата рождения</label>
+                        <div class="col-sm-12">
+                            <input type="date" class="form-control" id="birthdate">
+                            <small id="dateError" class="text-danger" style="display: none;">Неправильный формат
+                                date</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3 me-3 ms-3">
+                    <label for="phoneNumber" class="col-sm-2 col-form-label">Телефон</label>
+                    <div class="col-sm-12">
+                        <input type="tel" class="form-control" id="phoneNumber">
+                        <small id="phoneError" class="text-danger" style="display: none;">Неправильный формат
+                            phoneNumber</small>
+                    </div>
+                </div>
+                <div class="mb-3 me-3 ms-3">
+                    <label for="email" class="col-sm-2 col-form-label">Email</label>
+                    <div class="col-sm-12">
+                        <input type="email" class="form-control" id="email">
+                        <small id="emailError" class="text-danger" style="display: none;">Неправильный формат
+                            email</small>
+                    </div>
+                </div>
+                <div class="me-3 ms-3 mt-3">
+                    <div class="col-sm-12">
+                        <button type="button" class="btn btn-primary w-100" id="save">Сохранить</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
