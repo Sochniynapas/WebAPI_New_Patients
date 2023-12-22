@@ -4,7 +4,7 @@ import {userLogin} from "./loginFunctions.js";
 const loginButton = document.getElementById('login');
 const regButton = document.getElementById("register");
 
-if(await isTokenValid() === false){
+if(await isTokenValid() !== false){
     window.location.href ="/";
 }
 else{
