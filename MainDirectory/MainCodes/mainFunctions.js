@@ -28,7 +28,7 @@ function isTokenValid() {
 
 }
 export async function removeTokenFromLocalStorage() {
-    localStorage.removeItem('authToken');
+    localStorage.removeItem('token');
 }
 
 export async function checkUserToken() {

@@ -1,4 +1,4 @@
-import {getSpecialities} from "../../curls.js";
+import {getSpecialities, registration} from "../../curls.js";
 
 export async function getSpecialtiesList(){
 
@@ -50,16 +50,16 @@ export async function getSpecialtiesList(){
 export async function userRegistration(){
     try {
         const formData = {
-            fullName: document.getElementById('fullName').value,
+            name: document.getElementById('fullName').value,
             password: document.getElementById('password').value,
             email: document.getElementById('email').value,
-            birthDate: document.getElementById('birthDate').value,
+            birthday: document.getElementById('birthDate').value,
             gender: document.getElementById('gender').value,
-            phoneNumber: document.getElementById('phoneNumber').value,
+            phone: document.getElementById('phoneNumber').value,
             speciality: document.getElementById('speciality').value
         };
 
-
+        debugger
         const response = await fetch(`${registration}`, {
             method: 'POST',
             headers: {
@@ -73,7 +73,7 @@ export async function userRegistration(){
             window.location.href = '/';
         }
         else {
-            throw new Error('Ошибка запроса регистрации');
+            throw new Error(`${response}`);
         }
 
     }
