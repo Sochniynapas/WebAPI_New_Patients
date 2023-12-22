@@ -2,7 +2,18 @@ import {getSpecialities} from "../../curls.js";
 
 export async function getSpecialtiesList(){
 
+    debugger
     let speciality = document.getElementById('speciality');
+
+    const response = await fetch(`${getSpecialities}`,{
+        method:'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    });
+    const data = await response.json();
+    console.log(data);
+
     $(speciality).select2({
         ajax: {
             url: `${getSpecialities}`,
@@ -10,21 +21,28 @@ export async function getSpecialtiesList(){
             dataType: 'json',
             data: function (params) {
                 return {
-                    query: params.term,
+                    name: params.term,
+                    page: 1,
+                    size: 5
                 };
             },
             processResults: function (data) {
-                data.unshift({text: 'Не выбрано', objectGuid: ""});
+                data.specialties.unshift({text: 'Не выбрано', id: ""});
                 return {
-                    results: data.map(item => ({
+                    results: data.specialties.map(item => ({
                         text: item.name,
-                        guid: item.id,
+                        id: item.id,
                     }))
                 };
             },
             cache: true
         },
         placeholder: 'Выберите объект'
+    });
+    $(speciality).on('change', function () {
+        debugger
+        const selectedData = $(this).select2('data')[0];
+        console.log(selectedData);
     });
 
 }

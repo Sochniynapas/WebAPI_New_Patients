@@ -9,7 +9,6 @@ const pathName = window.location.pathname;
 // export const regularForCommunity = /^\/communities\/([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}).*$/;
 
 
-debugger
 switch (pathName){
     case '/':{
         response = await fetch('/index.html');
