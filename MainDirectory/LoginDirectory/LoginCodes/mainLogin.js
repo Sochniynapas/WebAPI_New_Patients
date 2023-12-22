@@ -1,10 +1,10 @@
-import {isTokenValid} from "../../MainCodes/mainFunctions.js";
+import {checkUserToken} from "../../MainCodes/mainFunctions.js";
 import {userLogin} from "./loginFunctions.js";
 
 const loginButton = document.getElementById('login');
 const regButton = document.getElementById("register");
 
-if(await isTokenValid() !== false){
+if(await checkUserToken() !== false){
     window.location.href ="/";
 }
 else{
