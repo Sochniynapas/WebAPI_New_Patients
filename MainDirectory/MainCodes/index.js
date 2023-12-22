@@ -43,6 +43,23 @@ switch (pathName){
         });
         break;
     }
+    case '/login':{
+        response = await fetch('LoginDirectory/loginCard.html');
+        dataForResponse = await response.text();
+        contentOfACard = document.getElementById('concreteCard');
+        contentOfACard.innerHTML = dataForResponse;
+        await checkUserToken();
+
+        contentOfACard.querySelectorAll('script').forEach(script => {
+            const newScript = document.createElement("script")
+            Array.from(script.attributes).forEach(attr => {
+                newScript.setAttribute(attr.name, attr.value)
+            })
+            newScript.appendChild(document.createTextNode(script.innerHTML))
+            script.parentNode.replaceChild(newScript, script)
+        });
+        break;
+    }
 
 
     // default:

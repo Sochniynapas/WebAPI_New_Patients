@@ -1,0 +1,27 @@
+<div class="card border-secondary bg-light shadow col-md-3 mx-auto">
+    <div class="card-body">
+        <div class="col-md-12">
+            <form id="loginForm">
+                <h2 class="card-title mb-4">Вход</h2>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="name@example.com" required>
+                    <small id="emailError" class="text-danger" style="display: none;">Неправильный формат email</small>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Пароль</label>
+                    <input type="password" class="form-control" id="password" required>
+                    <small id="passwordError" class="text-danger" style="display: none;">Неправильный формат password</small>
+                </div>
+                <div class="mb-3">
+                    <button id="login" type="button" class="btn btn-primary w-100">Войти</button>
+                </div>
+                <div class="mb-3">
+                    <button id="register" type="button" class="btn btn-secondary w-100">Зарегистрироваться</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="module" src="/LoginDirectory/LoginCodes/mainLogin.js"></script>
+<script type="module" src="/LoginDirectory/LoginCodes/loginFunctions.js"></script>
