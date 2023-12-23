@@ -3,7 +3,7 @@
         <div class="col-md-12">
             <form class="border border-secondary" style="background-color: #ffffff">
                 <div class="p-2">
-                    <h5>Фильтры и сортировка</h5>
+                    <h3 class="fs-3 fw-bold">Фильтры и сортировка</h3>
                 </div>
 
                 <div class="row m-2">
@@ -23,21 +23,22 @@
                 </div>
 
 
-                <div class="row mb-3 ms-2 me-2 align-items-end">
-                    <div class="col-md-4">
+                <div class="row mb-3 ms-2 me-2 d-flex justify-content-between align-items-end">
+                    <div class="col-md-4 ms-3">
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="scheduledVisits">
-                            <label class="form-check-label" for="scheduledVisits">Есть запланированные визиты</label>
+                            <input class="form-check-input fs-4" type="checkbox" id="scheduledVisits">
+                            <label class="form-check-label fs-5" for="scheduledVisits">Есть запланированные
+                                визиты</label>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="onlyMine">
-                            <label class="form-check-label" for="onlyMine">Мои пациенты</label>
+                            <input class="form-check-input fs-4" type="checkbox" id="onlyMine">
+                            <label class="form-check-label fs-5" for="onlyMine">Мои пациенты</label>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <label for="sortBy" class="form-label">Сортировать по</label>
+                    <div class="col-md-3 align-items-end">
+                        <label for="sortBy" class="form-label">Сортировка пациентов</label>
                         <select class="form-select" id="sortBy">
                             <option value="">--</option>
                             <option value="NameAsc">По имени(А-Я)</option>
@@ -49,9 +50,29 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-md-2">
-                    <button type="button" class="btn btn-primary w-100" id="getFilters">Применить</button>
+
+
+                <div class="d-flex justify-content-between row m-2">
+                    <label for="size" class="form-label">Число постов на странице:</label>
+                    <div class="col-md-3">
+                        <select class="form-select" id="size">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-primary w-100" id="getFilters">Применить</button>
+                    </div>
                 </div>
+
             </form>
         </div>
 
@@ -64,21 +85,6 @@
     <div class="row m-2 justify-content-between align-items-center">
         <div class="col-md-3">
             <ul class="pagination mt-3 col-md-6" id="pageForm"></ul>
-        </div>
-        <div class="text-sm-end col-md-3">
-            <label for="size" class="form-label">Число постов на странице:</label>
-            <select class="form-select" id="size">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-            </select>
         </div>
     </div>
 </div>
