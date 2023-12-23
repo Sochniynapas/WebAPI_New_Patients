@@ -11,12 +11,9 @@ sortPatients.addEventListener('click', async () => {
     const size = parseInt(document.getElementById('size').value);
     await handleSortPatients(1, size);
 });
-regPatient.addEventListener('click', async ()=>{
-    if(await checkUserToken()) {
-        debugger
-        await patientRegistration();
-    }
-    else {
-        window.location.href = "/login";
-    }
+regPatient.addEventListener('click', async () => {
+
+    debugger
+    await patientRegistration();
+
 })

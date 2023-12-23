@@ -51,7 +51,7 @@ export async function handleSortPatients(page, size) {
 
             await displayPatients(data.patients);
 
-            // await displayPageControllers(data, page);
+            await displayPageControllers(data, page);
         } else {
             throw new Error("Ошибка в запросе");
         }
@@ -104,48 +104,48 @@ export function createPageButton(num, cur) {
     return listItem;
 }
 
-// export async function displayPageControllers(data, pageStr) {
-//     const page = parseInt(pageStr);
-//     const pages = document.getElementById('pageForm');
-//     const size = parseInt(document.getElementById('size').value);
-//     while (pages.firstChild) {
-//         pages.removeChild(pages.firstChild);
-//     }
-//     const totalPages = data.pagination.count;
-//     const maxButtons = 7;
-//
-//     const startPage = Math.max(1, page - Math.floor(maxButtons / 2));
-//     const endPage = Math.min(totalPages, startPage + maxButtons - 1);
-//
-//     let prev = createPageButton('<');
-//     prev.addEventListener('click', function () {
-//         if (page > 1) {
-//             handleSortPosts(page - 1, size);
-//         }
-//     });
-//     pages.appendChild(prev);
-//
-//     for (let i = startPage; i <= endPage; i++) {
-//         let current = false;
-//         if (page === i) {
-//             current = true;
-//         }
-//         let btn = createPageButton(i, current);
-//         pages.appendChild(btn);
-//         btn.addEventListener('click', function () {
-//             const numberValue = parseInt(btn.textContent, 10);
-//             handleSortPosts(numberValue, size);
-//         })
-//     }
-//     let next = createPageButton('>');
-//     next.addEventListener('click', function () {
-//         if (page < totalPages) {
-//             handleSortPosts(page + 1, size);
-//         }
-//     });
-//     pages.appendChild(next);
-//
-// }
+export async function displayPageControllers(data, pageStr) {
+    const page = parseInt(pageStr);
+    const pages = document.getElementById('pageForm');
+    const size = parseInt(document.getElementById('size').value);
+    while (pages.firstChild) {
+        pages.removeChild(pages.firstChild);
+    }
+    const totalPages = data.pagination.count;
+    const maxButtons = 7;
+
+    const startPage = Math.max(1, page - Math.floor(maxButtons / 2));
+    const endPage = Math.min(totalPages, startPage + maxButtons - 1);
+
+    let prev = createPageButton('<');
+    prev.addEventListener('click', function () {
+        if (page > 1) {
+            handleSortPatients(page - 1, size);
+        }
+    });
+    pages.appendChild(prev);
+
+    for (let i = startPage; i <= endPage; i++) {
+        let current = false;
+        if (page === i) {
+            current = true;
+        }
+        let btn = createPageButton(i, current);
+        pages.appendChild(btn);
+        btn.addEventListener('click', function () {
+            const numberValue = parseInt(btn.textContent, 10);
+            handleSortPatients(numberValue, size);
+        })
+    }
+    let next = createPageButton('>');
+    next.addEventListener('click', function () {
+        if (page < totalPages) {
+            handleSortPatients(page + 1, size);
+        }
+    });
+    pages.appendChild(next);
+
+}
 
 export async function patientRegistration(){
     try {
@@ -226,7 +226,7 @@ async function updatePageFromUrl() {
         patientContainer.prepend(forPostsFiltered);
 
         await displayPatients(data.patients);
-        // await displayPageControllers(data, page);
+        await displayPageControllers(data, page);
     } else {
         throw new Error("Ошибка в запросе");
     }

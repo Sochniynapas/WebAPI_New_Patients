@@ -32,8 +32,10 @@ switch (pathName){
         dataForResponse = await response.text();
         contentOfACard = document.getElementById('concreteCard');
         contentOfACard.innerHTML = dataForResponse;
-        await checkUserToken();
-
+        if(await checkUserToken()!==false){
+            window.location.href = "/";
+            break;
+        }
         contentOfACard.querySelectorAll('script').forEach(script => {
             const newScript = document.createElement("script")
             Array.from(script.attributes).forEach(attr => {
@@ -50,7 +52,6 @@ switch (pathName){
         contentOfACard = document.getElementById('concreteCard');
         contentOfACard.innerHTML = dataForResponse;
         await checkUserToken();
-
         contentOfACard.querySelectorAll('script').forEach(script => {
             const newScript = document.createElement("script")
             Array.from(script.attributes).forEach(attr => {
@@ -66,8 +67,10 @@ switch (pathName){
         dataForResponse = await response.text();
         contentOfACard = document.getElementById('concreteCard');
         contentOfACard.innerHTML = dataForResponse;
-        await checkUserToken();
-
+        if(await checkUserToken()===false){
+            window.location.href = "/login";
+            break;
+        }
         contentOfACard.querySelectorAll('script').forEach(script => {
             const newScript = document.createElement("script")
             Array.from(script.attributes).forEach(attr => {
@@ -115,8 +118,10 @@ switch (pathName){
             dataForResponse = await response.text();
             contentOfACard = document.getElementById('concreteCard');
             contentOfACard.innerHTML = dataForResponse;
-            await checkUserToken();
-
+            if(await checkUserToken()===false){
+                window.location.href = "/login";
+                break;
+            }
             contentOfACard.querySelectorAll('script').forEach(script => {
                 const newScript = document.createElement("script")
                 Array.from(script.attributes).forEach(attr => {
