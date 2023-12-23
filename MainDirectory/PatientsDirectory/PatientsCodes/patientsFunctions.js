@@ -1,41 +1,40 @@
+import {getPatients} from "../../curls.js";
+
 async function updatePageFromUrl() {
     const currentParams = new URLSearchParams(window.location.search);
 
-    const tagsSelect = document.getElementById('tags');
+    const conclusions = document.getElementById('conclusions');
     const authorInput = document.getElementById('authorName');
-    const minInput = document.getElementById('readingTimeFrom');
-    const maxInput = document.getElementById('readingTimeTo');
+    const scheduledVisits = document.getElementById('scheduledVisits');
+    const onlyMine = document.getElementById('onlyMine');
     const sortingSelect = document.getElementById('sortBy');
-    const onlyMyCommunitiesCheckbox = document.getElementById('onlyMyGroups');
     const size = document.getElementById('size');
 
-    const tagsFromUrl = currentParams.getAll('tags');
+    const conclusionsFromUrl = currentParams.getAll('conclusions');
     const page = currentParams.get('page') || '1';
     size.value = currentParams.get('size') || '5';
-    tagsSelect.value = currentParams.getAll('tags');
-    authorInput.value = currentParams.get('author') || '';
-    minInput.value = currentParams.get('min') || '';
-    maxInput.value = currentParams.get('max') || '';
+    conclusions.value = currentParams.getAll('conclusions');
+    authorInput.value = currentParams.get('name') || '';
+    scheduledVisits.value = currentParams.get('scheduledVisits') === 'true';
+    onlyMine.value = currentParams.get('onlyMine') === 'true';
     sortingSelect.value = currentParams.get('sorting') || '';
-    onlyMyCommunitiesCheckbox.checked = currentParams.get('onlyMyCommunities') === 'true';
 
     const queryParams = new URLSearchParams();
-    if (tagsFromUrl.length > 0) {
-        tagsFromUrl.forEach(tagId => {
-            queryParams.append('tags', tagId);
+
+    if (conclusionsFromUrl.length > 0) {
+        conclusionsFromUrl.forEach(conclusionsId => {
+            queryParams.append('conclusions', conclusionsId);
         });
     }
     authorInput.value.trim() !== "" ? queryParams.append('author', authorInput.value) : null;
-    console.log(currentParams.getAll('tags'));
-    minInput.value.trim() !== "" ? queryParams.append('min', minInput.value) : null;
-    maxInput.value.trim() !== "" ? queryParams.append('max', maxInput.value) : null;
     sortingSelect.value ? queryParams.append('sorting', sortingSelect.value) : null;
-    onlyMyCommunitiesCheckbox.checked !== undefined ? queryParams.append('onlyMyCommunities', onlyMyCommunitiesCheckbox.checked) : null;
+    scheduledVisits.checked !== undefined ? queryParams.append('scheduledVisits', scheduledVisits.checked) : null;
+    onlyMine.checked !== undefined ? queryParams.append('onlyMine', onlyMine.checked) : null;
     page !== undefined ? queryParams.append('page', page) : null;
     size.value.trim() !== "" ? queryParams.append('size', size.value) : null;
     console.log(queryParams.toString());
 
-    const fullUrl = `${getData}?${queryParams.toString()}`;
+    const fullUrl = `${getPatients}?${queryParams.toString()}`;
 
     const response = await fetch(fullUrl, {
         method: 'GET',
