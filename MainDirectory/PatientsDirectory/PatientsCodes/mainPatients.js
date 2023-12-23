@@ -1,14 +1,22 @@
-import {handleSortPatients, initializePage} from "./patientsFunctions.js";
+import {handleSortPatients, initializePage, patientRegistration} from "./patientsFunctions.js";
+import {checkUserToken} from "../../MainCodes/mainFunctions.js";
 
 const sortPatients = document.getElementById('getFilters');
+const regPatient = document.getElementById('regPatient');
 // const createPost = document.getElementById('writePost');
 
 await initializePage();
 
-// createPost.addEventListener('click', function (){
-//     window.location.href='/post/create';
-// })
 sortPatients.addEventListener('click', async () => {
     const size = parseInt(document.getElementById('size').value);
     await handleSortPatients(1, size);
 });
+regPatient.addEventListener('click', async ()=>{
+    if(await checkUserToken()) {
+        debugger
+        await patientRegistration();
+    }
+    else {
+        window.location.href = "/login";
+    }
+})

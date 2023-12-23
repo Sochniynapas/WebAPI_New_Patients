@@ -18,29 +18,29 @@
                             </div>
                             <div class="modal-body">
                                 <div class="mb-3">
-                                    <label for="fullName" class="form-label">Фио</label>
-                                    <input type="text" class="form-control" id="fullName"
+                                    <label for="name" class="form-label">Фио</label>
+                                    <input type="text" class="form-control" id="name"
                                            placeholder="Иванов Иван Иванович" required>
                                     <small id="nameError" class="text-danger" style="display: none;">Неправильный формат
                                         name</small>
                                 </div>
                                 <div class="d-flex row align-items-center justify-content-between col-md-12">
                                     <div class="col-md-5 mb-3">
-                                        <label for="gender" class="form-label">Пол</label>
-                                        <select class="form-select" id="gender" required>
+                                        <label for="mf" class="form-label">Пол</label>
+                                        <select class="form-select" id="mf" required>
                                             <option value="Male">Мужской</option>
                                             <option value="Female">Женский</option>
                                         </select>
                                     </div>
                                     <div class="col-md-5 mb-3">
-                                        <label for="birthDate" class="form-label">Дата рождения</label>
-                                        <input type="date" class="form-control" id="birthDate">
+                                        <label for="birthday" class="form-label">Дата рождения</label>
+                                        <input type="date" class="form-control" id="birthday">
                                         <small id="dateError" class="text-danger" style="display: none;">Неправильный формат date</small>
                                     </div>
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-primary w-100" data-bs-dismiss="modal">Зарегистрировать</button>
+                                <button type="button" class="btn btn-primary w-100" id="regPatient" data-bs-dismiss="modal">Зарегистрировать</button>
                             </div>
                         </div>
                     </div>

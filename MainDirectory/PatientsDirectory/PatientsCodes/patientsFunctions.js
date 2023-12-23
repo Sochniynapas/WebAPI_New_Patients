@@ -1,4 +1,4 @@
-import {getPatients} from "../../curls.js";
+import {getPatients, patientRegister} from "../../curls.js";
 import {formatDateForServer} from "../../MainCodes/mainFunctions.js";
 
 export async function handleSortPatients(page, size) {
@@ -146,6 +146,31 @@ export function createPageButton(num, cur) {
 //     pages.appendChild(next);
 //
 // }
+
+export async function patientRegistration(){
+    try {
+        const formData = {
+            name: document.getElementById('name').value,
+            birthday: document.getElementById('birthday').value,
+            gender: document.getElementById('mf').value,
+        };
+
+        debugger
+        const response = await fetch(`${patientRegister}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify(formData),
+        });
+        window.location.reload();
+
+    }
+    catch (error){
+        console.error('Ошибка регистрации')
+    }
+}
 
 async function updatePageFromUrl() {
     debugger
