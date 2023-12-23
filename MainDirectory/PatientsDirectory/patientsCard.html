@@ -1,9 +1,50 @@
 <div class="container mt-5">
+    </body>
     <div class="row">
         <div class="col-md-12 mb-5">
             <div class="mb-3 col-md-12 d-flex justify-content-between">
                 <h3 class="fs-1 fw-bold col-md-6">Пациенты</h3>
-                <button class="btn btn-primary col-md-3">👤➕ Регистрация нового пациента</button>
+
+                <button id="crPatient" class="btn btn-primary col-md-3" data-bs-toggle="modal"
+                        data-bs-target="#myModal">👤➕ Регистрация нового пациента
+                </button>
+                <div class="modal" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content bg-light">
+                            <div class="modal-header">
+                                <h3 class="modal-title fw-bold" id="exampleModalLabel">Регистрация пациента</h3>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="fullName" class="form-label">Фио</label>
+                                    <input type="text" class="form-control" id="fullName"
+                                           placeholder="Иванов Иван Иванович" required>
+                                    <small id="nameError" class="text-danger" style="display: none;">Неправильный формат
+                                        name</small>
+                                </div>
+                                <div class="d-flex row align-items-center justify-content-between col-md-12">
+                                    <div class="col-md-5 mb-3">
+                                        <label for="gender" class="form-label">Пол</label>
+                                        <select class="form-select" id="gender" required>
+                                            <option value="Male">Мужской</option>
+                                            <option value="Female">Женский</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-5 mb-3">
+                                        <label for="birthDate" class="form-label">Дата рождения</label>
+                                        <input type="date" class="form-control" id="birthDate">
+                                        <small id="dateError" class="text-danger" style="display: none;">Неправильный формат date</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary w-100" data-bs-dismiss="modal">Зарегистрировать</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <form class="border border-secondary shadow bg-light">
                 <div class="p-2">
@@ -31,7 +72,8 @@
                     <div class="col-md-4 ms-3">
                         <div class="form-check form-switch">
                             <input class="form-check-input fs-4" type="checkbox" id="scheduledVisits">
-                            <label class="form-check-label fs-5" for="scheduledVisits">Есть запланированные визиты</label>
+                            <label class="form-check-label fs-5" for="scheduledVisits">Есть запланированные
+                                визиты</label>
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -91,6 +133,5 @@
         </div>
     </div>
 </div>
-
 <script type="module" src="/PatientsDirectory/PatientsCodes/mainPatients.js"></script>
 <script type="module" src="/PatientsDirectory/PatientsCodes/patientsFunctions.js"></script>
