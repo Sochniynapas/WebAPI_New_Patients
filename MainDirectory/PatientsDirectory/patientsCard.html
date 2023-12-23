@@ -1,0 +1,139 @@
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12 mb-5">
+            <div class="mb-3 col-md-12 d-flex justify-content-between">
+                <h3 class="fs-1 fw-bold col-md-6">Пациенты</h3>
+
+                <button id="crPatient" class="btn btn-primary col-md-3" data-bs-toggle="modal"
+                        data-bs-target="#myModal">👤➕ Регистрация нового пациента
+                </button>
+                <div class="modal" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content bg-light">
+                            <div class="modal-header">
+                                <h3 class="modal-title fw-bold" id="exampleModalLabel">Регистрация пациента</h3>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Фио</label>
+                                    <input type="text" class="form-control" id="name"
+                                           placeholder="Иванов Иван Иванович" required>
+                                    <small id="nameError" class="text-danger" style="display: none;">Неправильный формат
+                                        name</small>
+                                </div>
+                                <div class="d-flex row align-items-center justify-content-between col-md-12">
+                                    <div class="col-md-5 mb-3">
+                                        <label for="mf" class="form-label">Пол</label>
+                                        <select class="form-select" id="mf" required>
+                                            <option value="Male">Мужской</option>
+                                            <option value="Female">Женский</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-5 mb-3">
+                                        <label for="birthday" class="form-label">Дата рождения</label>
+                                        <input type="date" class="form-control" id="birthday">
+                                        <small id="dateError" class="text-danger" style="display: none;">Неправильный
+                                            формат date</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary w-100" id="regPatient"
+                                        data-bs-dismiss="modal">Зарегистрировать
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <form class="border border-secondary shadow bg-light">
+                <div class="p-2">
+                    <h3 class="fs-3 fw-bold">Фильтры и сортировка</h3>
+                </div>
+
+                <div class="row m-2">
+                    <div class="col-md-6">
+                        <label for="authorName" class="form-label">Имя</label>
+                        <input type="text" class="form-control" id="authorName" placeholder="Иванов Иван Иванович">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="conclusions" class="form-label">Имеющиеся заключения</label>
+                        <select class="form-select" id="conclusions">
+                            <option value="">--</option>
+                            <option value="Disease">Болезнь</option>
+                            <option value="Recovery">Выздоровление</option>
+                            <option value="Death">Смерть</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="row mb-3 ms-2 me-2 d-flex justify-content-between align-items-end">
+                    <div class="col-md-4 ms-3">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input fs-4" type="checkbox" id="scheduledVisits">
+                            <label class="form-check-label fs-5" for="scheduledVisits">Есть запланированные
+                                визиты</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input fs-4" type="checkbox" id="onlyMine">
+                            <label class="form-check-label fs-5" for="onlyMine">Мои пациенты</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mt-4 align-items-end">
+                        <label for="sortBy" class="form-label">Сортировка пациентов</label>
+                        <select class="form-select" id="sortBy">
+                            <option value="">--</option>
+                            <option value="NameAsc">По имени(А-Я)</option>
+                            <option value="NameDesc">По имени(Я-А)</option>
+                            <option value="CreateDesc">По дате (новые первыми)</option>
+                            <option value="CreateAsc">По дате (старые первыми)</option>
+                            <option value="InspectionAsc">По осмотрам (меньшие сначала)</option>
+                            <option value="InspectionDesc">По осмотрам (большие сначала)</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="d-flex justify-content-between row me-2 ms-2 mb-3 mt-5">
+                    <label for="size" class="form-label text-gray-500 opacity-75">Число пациентов на странице</label>
+                    <div class="col-md-3">
+                        <select class="form-select" id="size">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-primary w-100" id="getFilters">Поиск</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+
+    </div>
+    <div class="container" id="own-patients">
+        <div id="patients-container"></div>
+        <div class="row m-2 justify-content-between align-items-center">
+            <div class="col-md-3">
+                <ul class="pagination mt-3 col-md-6" id="pageForm"></ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="module" src="/PatientsDirectory/PatientsCodes/mainPatients.js"></script>
+<script type="module" src="/PatientsDirectory/PatientsCodes/patientsFunctions.js"></script>
