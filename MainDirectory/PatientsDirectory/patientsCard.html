@@ -1,7 +1,7 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-12">
-            <form class="border border-secondary" style="background-color: #ffffff">
+            <form class="border border-secondary shadow bg-light" style="background-color: #ffffff">
                 <div class="p-2">
                     <h3 class="fs-3 fw-bold">Фильтры и сортировка</h3>
                 </div>
@@ -27,8 +27,7 @@
                     <div class="col-md-4 ms-3">
                         <div class="form-check form-switch">
                             <input class="form-check-input fs-4" type="checkbox" id="scheduledVisits">
-                            <label class="form-check-label fs-5" for="scheduledVisits">Есть запланированные
-                                визиты</label>
+                            <label class="form-check-label fs-5" for="scheduledVisits">Есть запланированные визиты</label>
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -37,7 +36,7 @@
                             <label class="form-check-label fs-5" for="onlyMine">Мои пациенты</label>
                         </div>
                     </div>
-                    <div class="col-md-3 align-items-end">
+                    <div class="col-md-3 mt-4 align-items-end">
                         <label for="sortBy" class="form-label">Сортировка пациентов</label>
                         <select class="form-select" id="sortBy">
                             <option value="">--</option>
@@ -52,8 +51,8 @@
                 </div>
 
 
-                <div class="d-flex justify-content-between row m-2">
-                    <label for="size" class="form-label">Число постов на странице:</label>
+                <div class="d-flex justify-content-between row me-2 ms-2 mb-3 mt-5">
+                    <label for="size" class="form-label text-gray-500 opacity-75">Число пациентов на странице</label>
                     <div class="col-md-3">
                         <select class="form-select" id="size">
                             <option value="1">1</option>
@@ -69,7 +68,7 @@
                         </select>
                     </div>
                     <div class="col-md-3">
-                        <button type="button" class="btn btn-primary w-100" id="getFilters">Применить</button>
+                        <button type="button" class="btn btn-primary w-100" id="getFilters">Поиск</button>
                     </div>
                 </div>
 
