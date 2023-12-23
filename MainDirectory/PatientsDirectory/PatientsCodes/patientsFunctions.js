@@ -1,9 +1,68 @@
 import {getPatients} from "../../curls.js";
 import {formatDateForServer} from "../../MainCodes/mainFunctions.js";
 
+export async function handleSortPatients(page, size) {
+    try {
+
+
+        const conclusions = document.getElementById('conclusions');
+        const selectedConclusion = Array.from(conclusions.selectedOptions).map(option => option.value);
+        const authorInput = document.getElementById('authorName').value;
+        const scheduledVisits = document.getElementById('scheduledVisits').checked;
+        const onlyMine = document.getElementById('onlyMine').checked;
+        const sortingSelect = document.getElementById('sortBy').value;
+
+
+
+
+        const queryParams = new URLSearchParams();
+        page !== undefined ? queryParams.append('page', page) : null;
+        size !== undefined ? queryParams.append('size', size) : null;
+        if (selectedConclusion.length > 0) {
+            for (const tag of selectedConclusion) {
+                queryParams.append('tags', tag);
+            }
+        }
+        authorInput.trim() !== "" ? queryParams.append('authorInput', authorInput) : null;
+        sortingSelect.trim() !== "" ? queryParams.append('sorting', sortingSelect) : null;
+        scheduledVisits !== undefined ? queryParams.append('scheduledVisits', scheduledVisits) : null;
+        onlyMine !== undefined ? queryParams.append('onlyMine', onlyMine) : null;
+
+
+        const fullUrl = `${getPatients}?${queryParams.toString()}`;
+
+        history.pushState("","",`?${queryParams.toString()}`);
+
+        const response = await fetch(fullUrl, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            const postContainer = document.getElementById('own-patients');
+            document.getElementById('patients-container').remove();
+            const forPostsFiltered = document.createElement('div');
+            forPostsFiltered.id = 'patients-container';
+            postContainer.prepend(forPostsFiltered);
+
+            await displayPatients(data.patients);
+
+            // await displayPageControllers(data, page);
+        } else {
+            throw new Error("Ошибка в запросе");
+        }
+    } catch (error) {
+        console.error(`Ошибка фильтрации: ${error}`);
+    }
+}
 
 export async function createPatient(data) {
     const patientContainer = document.getElementById('patients-container');
+
     const response = await fetch('/PatientsDirectory/patientCardInList.html');
     const postString = await response.text();
     const postHTML = document.createElement('div');
