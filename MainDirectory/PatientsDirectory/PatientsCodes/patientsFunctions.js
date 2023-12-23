@@ -1,96 +1,23 @@
 import {getPatients} from "../../curls.js";
+import {formatDateForServer} from "../../MainCodes/mainFunctions.js";
 
 
-export async function createPost(data) {
-    const token = localStorage.getItem('token');
-    const postContainer = document.getElementById('posts-container');
-    const likeIcon = data.hasLike ? '💜' : '🖤';
-    const community = data.communityName ? ` в сообществе "${data.communityName}"` : "";
-    const response = await fetch('../postView/postView.html');
+export async function createPatient(data) {
+    const patientContainer = document.getElementById('patients-container');
+    const response = await fetch('/PatientsDirectory/patientCardInList.html');
     const postString = await response.text();
     const postHTML = document.createElement('div');
-    const addressText = await getChain(data.addressId);
+    const gender = (data.gender === "Male")? "Мужской" : "Женский";
+    const birthday = formatDateForServer(data.birthday)
     postHTML.innerHTML = postString;
+    console.log(data);
+    postHTML.querySelector('#name').textContent += " " + data.name;
+    // postHTML.querySelector('#email').textContent = data.title;
+    postHTML.querySelector('#gender').textContent += " " + gender;
+    postHTML.querySelector('#birthday').innerHTML += " " + birthday;
 
-    postHTML.querySelector('#info').textContent = data.author + " - " + dateInNormalView(data.createTime)  + community;
-    postHTML.querySelector('.title-text').textContent = data.title;
-    postHTML.querySelector('#postText').textContent = data.description;
-    postHTML.querySelector('#tagForm').innerHTML = `${data.tags.map(tag => `<span class="badge badge-secondary text-secondary" id="tag">#${tag.name}</span>`).join('')}`;
-    postHTML.querySelector('.reading-time').textContent = "Время чтения: "+ data.readingTime + " мин.";
-    if(addressText!=='') {
-        postHTML.querySelector('.address').textContent = addressText;
-        postHTML.querySelector('.address').classList.add('d-none');
-    }
-    postHTML.querySelector('#commentsCount').textContent = data.commentsCount;
-    postHTML.querySelector('#likeCount').textContent = data.likes;
-    postHTML.querySelector('#likeIcon').textContent = likeIcon;
+    patientContainer.appendChild(postHTML);
 
-    loadImage(data.image, (isValid) => {
-        if (isValid) {
-            postHTML.querySelector('#img').src = data.image;
-            postHTML.querySelector('#img').classList.add('border', 'border-secondary')
-        }
-    })
-    postContainer.appendChild(postHTML);
-    const postText = postHTML.querySelector('#postText')
-    const isTextOverflowing = postText.scrollHeight > postText.clientHeight;
-    const readMoreBtn = postHTML.querySelector('.read-more-btn');
-    const like = postHTML.querySelector('#likeIcon');
-    const likeCounter = postHTML.querySelector('#likeCount');
-
-    if (isTextOverflowing) {
-        readMoreBtn.style.display = "block";
-    }
-
-    postHTML.querySelector('.title-text').addEventListener('click', async function () {
-        console.log(localStorage.getItem('token'));
-        window.location.href = `/post/${data.id}`;
-
-    });
-    like.addEventListener('click', async function () {
-        if (like.textContent === '💜') {
-            try {
-                const response = await fetch(`https://blog.kreosoft.space/api/post/${data.id}/like`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
-                if (response.ok) {
-                    like.textContent = '🖤';
-                    likeCounter.textContent = `${parseInt(likeCounter.textContent) - 1}`;
-                }
-            } catch (error) {
-                console.error('Ошибка запроса')
-            }
-
-        } else {
-            try {
-                const response = await fetch(`https://blog.kreosoft.space/api/post/${data.id}/like`, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
-                if (response.ok) {
-                    like.textContent = '💜';
-                    likeCounter.textContent = `${parseInt(likeCounter.textContent) + 1}`;
-                }
-            } catch (error) {
-                console.error('Ошибка запроса')
-            }
-        }
-    });
-    postContainer.addEventListener('click', async function (event) {
-        let readMoreBtn = event.target.closest('.read-more-btn');
-        if (readMoreBtn) {
-            let postText = readMoreBtn.previousElementSibling;
-            postText.classList.remove('clamp-6');
-            readMoreBtn.style.display = "none";
-        }
-    });
 }
 
 async function displayPatients(patients) {
@@ -104,7 +31,65 @@ async function displayPatients(patients) {
     }
 }
 
+export function createPageButton(num, cur) {
+    const listItem = document.createElement('li');
+    listItem.classList.add('page-item');
+    const linkItem = document.createElement('a');
+    linkItem.classList.add('page-link', 'text-dark', 'text-decoration-none');
+    linkItem.href = '#';
+    linkItem.textContent = `${num}`;
+    if (cur) {
+        linkItem.style.backgroundColor = '#8181ff';
+    }
+    listItem.appendChild(linkItem);
+    return listItem;
+}
+
+// export async function displayPageControllers(data, pageStr) {
+//     const page = parseInt(pageStr);
+//     const pages = document.getElementById('pageForm');
+//     const size = parseInt(document.getElementById('size').value);
+//     while (pages.firstChild) {
+//         pages.removeChild(pages.firstChild);
+//     }
+//     const totalPages = data.pagination.count;
+//     const maxButtons = 7;
+//
+//     const startPage = Math.max(1, page - Math.floor(maxButtons / 2));
+//     const endPage = Math.min(totalPages, startPage + maxButtons - 1);
+//
+//     let prev = createPageButton('<');
+//     prev.addEventListener('click', function () {
+//         if (page > 1) {
+//             handleSortPosts(page - 1, size);
+//         }
+//     });
+//     pages.appendChild(prev);
+//
+//     for (let i = startPage; i <= endPage; i++) {
+//         let current = false;
+//         if (page === i) {
+//             current = true;
+//         }
+//         let btn = createPageButton(i, current);
+//         pages.appendChild(btn);
+//         btn.addEventListener('click', function () {
+//             const numberValue = parseInt(btn.textContent, 10);
+//             handleSortPosts(numberValue, size);
+//         })
+//     }
+//     let next = createPageButton('>');
+//     next.addEventListener('click', function () {
+//         if (page < totalPages) {
+//             handleSortPosts(page + 1, size);
+//         }
+//     });
+//     pages.appendChild(next);
+//
+// }
+
 async function updatePageFromUrl() {
+    debugger
     const currentParams = new URLSearchParams(window.location.search);
 
     const conclusions = document.getElementById('conclusions');
@@ -150,14 +135,14 @@ async function updatePageFromUrl() {
 
     if (response.ok) {
         const data = await response.json();
-        const postContainer = document.getElementById('own-patients');
+        const patientContainer = document.getElementById('own-patients');
         document.getElementById('patients-container').remove();
         const forPostsFiltered = document.createElement('div');
         forPostsFiltered.id = 'patients-container';
-        postContainer.prepend(forPostsFiltered);
+        patientContainer.prepend(forPostsFiltered);
 
         await displayPatients(data.patients);
-        await displayPageControllers(data, page);
+        // await displayPageControllers(data, page);
     } else {
         throw new Error("Ошибка в запросе");
     }

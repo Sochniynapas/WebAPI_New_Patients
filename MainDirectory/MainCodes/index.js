@@ -132,5 +132,4 @@ switch (pathName){
         }
         break;
 }
-debugger
 logoutItem.addEventListener('click', removeTokenFromLocalStorage);
