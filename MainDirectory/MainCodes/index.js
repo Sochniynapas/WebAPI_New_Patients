@@ -6,6 +6,7 @@ let response;
 const logoutItem = document.getElementById('logoutItem');
 const pathName = window.location.pathname;
 export const regularForConcretePatient = /^\/patient\/([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$/;
+export const regularForPatientsWithGuid = /^\/patient\/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}(\/inspections)?(\?grouped=(true|false))?(?:&icdRoots=[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})?(?:&page=\d+)?(?:&size=\d+)?$/;
 export const regularForPatients = /^\/patients(?:\?name=[a-zA-Z]+)?(?:&conclusions=(?:Disease|Recovery|Death(?:,Disease|,Recovery|,Death)*)+)?(?:&sorting=(?:NameAsc|NameDesc|CreateAsc|CreateDesc|InspectionAsc|InspectionDesc)?)?(?:&scheduledVisits=(?:true|false)?)?(?:&onlyMine=(?:true|false)?)?(?:&page=\d+)?(?:&size=\d+)?$/;
 
 switch (pathName){
@@ -81,12 +82,15 @@ switch (pathName){
     }
 
     default:
-        if (regularForConcretePatient.test(pathName)) {
+        if (regularForPatientsWithGuid.test(pathName)) {
             response = await fetch('/MedicalCardDirectory/medicalCard.html');
             dataForResponse = await response.text();
             contentOfACard = document.getElementById('concreteCard');
             contentOfACard.innerHTML = dataForResponse;
-            await checkUserToken();
+            if(await checkUserToken()===false){
+                window.location.href = "/login";
+                break;
+            }
             contentOfACard.querySelectorAll('script').forEach(script => {
                 const newScript = document.createElement("script")
                 Array.from(script.attributes).forEach(attr => {

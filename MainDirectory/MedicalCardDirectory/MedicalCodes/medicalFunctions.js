@@ -35,7 +35,7 @@ export async function handleSortInspections(page, size) {
         const fullUrl = `${getPatient}${localStorage.getItem('patientId')}/inspections?${queryParams.toString()}`;
 
         history.pushState("","",`/patient/${localStorage.getItem('patientId')}/inspections?${queryParams.toString()}`);
-        debugger
+
         const response = await fetch(fullUrl, {
             method: 'GET',
             headers: {
@@ -80,7 +80,7 @@ async function checkConclusion(conclusion){
 
 export async function createInspection(data) {
     const inspectionContainer = document.getElementById('inspections-container');
-    debugger
+
     const response = await fetch('/MedicalCardDirectory/inspectionCard.html');
     const postString = await response.text();
     const postHTML = document.createElement('div');
@@ -192,7 +192,7 @@ async function updatePageFromUrl() {
     page !== undefined ? queryParams.append('page', page) : null;
     size.value.trim() !== "" ? queryParams.append('size', size.value) : null;
     console.log(queryParams.toString());
-    debugger
+
     const fullUrl = `${getPatient}${localStorage.getItem('patientId')}/inspections?${queryParams.toString()}`;
 
     const response = await fetch(fullUrl, {
@@ -245,7 +245,7 @@ export async function fillParamsOfPatient(id){
         document.getElementById("bDate").textContent += " " + formatDateForServer(data.birthday);
         const mkbSelect = document.getElementById("MKB");
         mkbSelect.innerHTML = '';
-        debugger
+
         const mkbList = await getMKB();
         mkbList.forEach(MKB => {
             const option = document.createElement('option');
