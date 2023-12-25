@@ -8,31 +8,31 @@ export async function handleSortInspections(page, size) {
     try {
 
 
-        const conclusions = document.getElementById('conclusions');
-        const selectedConclusion = Array.from(conclusions.selectedOptions).map(option => option.value);
-        const authorInput = document.getElementById('authorName').value;
-        const scheduledVisits = document.getElementById('scheduledVisits').checked;
-        const onlyMine = document.getElementById('onlyMine').checked;
-        const sortingSelect = document.getElementById('sortBy').value;
-
-
+        const MKB = document.getElementById('MKB');
+        const selectedMKB = Array.from(MKB.selectedOptions).map(option => option.value);
+        const showAll = document.getElementById('showAll').checked;
 
 
         const queryParams = new URLSearchParams();
         page !== undefined ? queryParams.append('page', page) : null;
         size !== undefined ? queryParams.append('size', size) : null;
-        if (selectedConclusion.length > 0) {
-            for (const tag of selectedConclusion) {
-                queryParams.append('tags', tag);
+        if (selectedMKB.length > 0) {
+            for (const MKB of selectedMKB) {
+                queryParams.append('icdRoots', MKB);
             }
         }
-        authorInput.trim() !== "" ? queryParams.append('authorInput', authorInput) : null;
-        sortingSelect.trim() !== "" ? queryParams.append('sorting', sortingSelect) : null;
-        scheduledVisits !== undefined ? queryParams.append('scheduledVisits', scheduledVisits) : null;
-        onlyMine !== undefined ? queryParams.append('onlyMine', onlyMine) : null;
+
+        if(showAll === false){
+            queryParams.append('grouped', true);
+        }
+        else{
+            queryParams.append('grouped', false)
+        }
 
 
-        const fullUrl = `${getPatients}?${queryParams.toString()}`;
+        const fullUrl = `${getPatient}${localStorage.getItem('patientId')}/inspections?${queryParams.toString()}`;
+
+        history.pushState("","",`?${queryParams.toString()}`);
 
         const response = await fetch(fullUrl, {
             method: 'GET',
@@ -50,7 +50,7 @@ export async function handleSortInspections(page, size) {
             forPostsFiltered.id = 'inspections-container';
             postContainer.prepend(forPostsFiltered);
 
-            await displayPatients(data.patients);
+            await displayInspections(data.inspections);
 
             await displayPageControllers(data, page);
         } else {
@@ -83,12 +83,15 @@ export async function createInspection(data) {
     const postString = await response.text();
     const postHTML = document.createElement('div');
     const date = formatDateForServer(data.date);
-    const final = checkConclusion(data.conclusion);
+    const final = await checkConclusion(data.conclusion);
     const mainDiagnosis = data.diagnosis.name;
     const doctor = data.doctor;
 
     postHTML.innerHTML = postString;
     console.log(data);
+    if(final === 'Смерть'){
+        postHTML.querySelector('#inspection').classList.replace('bg-light', 'bg-danger');
+    }
     postHTML.querySelector('#date').textContent = date;
     postHTML.querySelector('#final').textContent += " " + final;
     postHTML.querySelector('#diagnose').innerHTML += " " + mainDiagnosis;
@@ -183,12 +186,7 @@ async function updatePageFromUrl() {
     const queryParams = new URLSearchParams();
 
     MKB.value ? queryParams.append('MKB', MKB.value) : null;
-    if(showAll.checked === false){
-        queryParams.append('grouped', true);
-    }
-    else{
-        queryParams.append('grouped', false)
-    }
+
     page !== undefined ? queryParams.append('page', page) : null;
     size.value.trim() !== "" ? queryParams.append('size', size.value) : null;
     console.log(queryParams.toString());
@@ -218,7 +216,9 @@ async function updatePageFromUrl() {
     }
 }
 
+export async function getSpecialtiesList(){
 
+}
 export async function fillParamsOfPatient(id){
     try {
         const response = await fetch(`${getPatient}${id}`,{
