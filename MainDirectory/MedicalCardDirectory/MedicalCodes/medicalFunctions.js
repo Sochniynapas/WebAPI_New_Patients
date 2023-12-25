@@ -1,7 +1,10 @@
 import {getPatient, getPatients} from "../../curls.js";
 import {formatDateForServer} from "../../MainCodes/mainFunctions.js";
 
-export async function handleSortPatients(page, size) {
+
+
+
+export async function handleSortInspections(page, size) {
     try {
 
 
@@ -41,10 +44,10 @@ export async function handleSortPatients(page, size) {
 
         if (response.ok) {
             const data = await response.json();
-            const postContainer = document.getElementById('own-patients');
-            document.getElementById('patients-container').remove();
+            const postContainer = document.getElementById('own-inspections');
+            document.getElementById('inspections-container').remove();
             const forPostsFiltered = document.createElement('div');
-            forPostsFiltered.id = 'patients-container';
+            forPostsFiltered.id = 'inspections-container';
             postContainer.prepend(forPostsFiltered);
 
             await displayPatients(data.patients);
@@ -58,30 +61,48 @@ export async function handleSortPatients(page, size) {
     }
 }
 
-export async function createPatient(data) {
-    const patientContainer = document.getElementById('patients-container');
-
-    const response = await fetch('/PatientsDirectory/patientCardInList.html');
-    const postString = await response.text();
-    const postHTML = document.createElement('div');
-    const gender = (data.gender === "Male")? "Мужской" : "Женский";
-    const birthday = formatDateForServer(data.birthday)
-    postHTML.innerHTML = postString;
-    console.log(data);
-    postHTML.querySelector('#name').textContent += " " + data.name;
-    // postHTML.querySelector('#email').textContent = data.title;
-    postHTML.querySelector('#gender').textContent += " " + gender;
-    postHTML.querySelector('#birthday').innerHTML += " " + birthday;
-
-    patientContainer.appendChild(postHTML);
+async function checkConclusion(conclusion){
+    switch (conclusion){
+        case "Disease":{
+            return 'Болезнь';
+        }
+        case "Recovery":{
+            return 'Выздоровление';
+        }
+        case "Death":{
+            return 'Смерть';
+        }
+    }
 
 }
 
-async function displayPatients(patients) {
-    console.log(patients);
-    for (const patient of patients) {
+export async function createInspection(data) {
+    const inspectionContainer = document.getElementById('inspections-container');
+    debugger
+    const response = await fetch('/MedicalCardDirectory/inspectionCard.html');
+    const postString = await response.text();
+    const postHTML = document.createElement('div');
+    const date = formatDateForServer(data.date);
+    const final = checkConclusion(data.conclusion);
+    const mainDiagnosis = data.diagnosis.name;
+    const doctor = data.doctor;
+
+    postHTML.innerHTML = postString;
+    console.log(data);
+    postHTML.querySelector('#date').textContent = date;
+    postHTML.querySelector('#final').textContent += " " + final;
+    postHTML.querySelector('#diagnose').innerHTML += " " + mainDiagnosis;
+    postHTML.querySelector('#doctor').innerHTML += " " + doctor;
+
+    inspectionContainer.appendChild(postHTML);
+
+}
+
+async function displayInspections(inspections) {
+    console.log(inspections);
+    for (const inspection of inspections) {
         try {
-            await createPatient(patient);
+            await createInspection(inspection);
         } catch (error) {
             console.error(`Ошибка загрузки картинки: ${error}`);
         }
@@ -118,7 +139,7 @@ export async function displayPageControllers(data, pageStr) {
     let prev = createPageButton('<');
     prev.addEventListener('click', function () {
         if (page > 1) {
-            handleSortPatients(page - 1, size);
+            handleSortInspections(page - 1, size);
         }
     });
     pages.appendChild(prev);
@@ -132,28 +153,89 @@ export async function displayPageControllers(data, pageStr) {
         pages.appendChild(btn);
         btn.addEventListener('click', function () {
             const numberValue = parseInt(btn.textContent, 10);
-            handleSortPatients(numberValue, size);
+            handleSortInspections(numberValue, size);
         })
     }
     let next = createPageButton('>');
     next.addEventListener('click', function () {
         if (page < totalPages) {
-            handleSortPatients(page + 1, size);
+            handleSortInspections(page + 1, size);
         }
     });
     pages.appendChild(next);
 
 }
 
+async function updatePageFromUrl() {
+    const currentParams = new URLSearchParams(window.location.search);
 
+    const MKB = document.getElementById('MKB');
+    const groupBy = document.getElementById('groupBy');
+    const showAll = document.getElementById('showAll');
+    const size = document.getElementById('size');
+
+    const page = currentParams.get('page') || '1';
+    size.value = currentParams.get('size') || '5';
+    MKB.value = currentParams.get('MKB')||'';
+    showAll.value = currentParams.get('showAll') === 'true';
+    groupBy.value = currentParams.get('groupBy') === 'true';
+
+    const queryParams = new URLSearchParams();
+
+    MKB.value ? queryParams.append('MKB', MKB.value) : null;
+    if(showAll.checked === false){
+        queryParams.append('grouped', true);
+    }
+    else{
+        queryParams.append('grouped', false)
+    }
+    page !== undefined ? queryParams.append('page', page) : null;
+    size.value.trim() !== "" ? queryParams.append('size', size.value) : null;
+    console.log(queryParams.toString());
+
+    const fullUrl = `${getPatient}${localStorage.getItem('patientId')}/inspections?${queryParams.toString()}`;
+
+    const response = await fetch(fullUrl, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+    });
+
+    if (response.ok) {
+        const data = await response.json();
+        const patientContainer = document.getElementById('own-inspections');
+        document.getElementById('inspections-container').remove();
+        const forPostsFiltered = document.createElement('div');
+        forPostsFiltered.id = 'inspections-container';
+        patientContainer.prepend(forPostsFiltered);
+
+        await displayInspections(data.inspections);
+        await displayPageControllers(data, page);
+    } else {
+        throw new Error("Ошибка в запросе");
+    }
+}
 
 
 export async function fillParamsOfPatient(id){
     try {
-        const response = await fetch(`${getPatient}`)
+        const response = await fetch(`${getPatient}${id}`,{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+        });
+        const data = await response.json();
+        document.getElementById("nameOfPatient").textContent = data.name;
+        document.getElementById("bDate").textContent += " " + formatDateForServer(data.birthday);
+
+
     }
     catch (error){
-        console.error("Ошибка в id пациента")
+        console.error("Ошибка при получении пациента")
     }
 
 
@@ -163,5 +245,5 @@ export async function fillParamsOfPatient(id){
 
 
 export async function initializePage(){
-    await handleSortPatients(1,5);
+    await updatePageFromUrl();
 }

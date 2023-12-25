@@ -1,10 +1,12 @@
-import {getPatient} from "./medicalFunctions.js";
+import {fillParamsOfPatient, initializePage} from "./medicalFunctions.js";
 
 const currentUrl = window.location.href;
-const urlParts = currentUrl.split('/post/');
+const urlParts = currentUrl.split('/patient/');
 if (urlParts.length > 1) {
     const guidOrWhateverComesNext = urlParts[1];
-    await getPatient(guidOrWhateverComesNext);
+    await fillParamsOfPatient(guidOrWhateverComesNext);
+    localStorage.setItem('patientId', guidOrWhateverComesNext);
+    await initializePage();
 } else {
-    console.log('URL не содержит /post/');
+    console.log('URL не содержит /patient/');
 }
