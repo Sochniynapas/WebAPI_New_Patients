@@ -2,7 +2,6 @@ import {getSpecialities, registration} from "../../curls.js";
 
 export async function getSpecialtiesList(){
 
-    debugger
     let speciality = document.getElementById('speciality');
 
     const response = await fetch(`${getSpecialities}`,{

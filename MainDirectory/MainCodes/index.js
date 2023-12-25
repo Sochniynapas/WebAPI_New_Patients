@@ -5,10 +5,9 @@ let contentOfACard;
 let response;
 const logoutItem = document.getElementById('logoutItem');
 const pathName = window.location.pathname;
-// export const regularForConcretePost = /^\/post\/([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$/;
-// export const regularForCommunity = /^\/communities\/([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}).*$/;
+export const regularForConcretePatient = /^\/patient\/([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$/;
+export const regularForPatientsWithGuid = /^\/patient\/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}(\/inspections)?(\?grouped=(true|false))?(?:&icdRoots=[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})?(?:&page=\d+)?(?:&size=\d+)?$/;
 export const regularForPatients = /^\/patients(?:\?name=[a-zA-Z]+)?(?:&conclusions=(?:Disease|Recovery|Death(?:,Disease|,Recovery|,Death)*)+)?(?:&sorting=(?:NameAsc|NameDesc|CreateAsc|CreateDesc|InspectionAsc|InspectionDesc)?)?(?:&scheduledVisits=(?:true|false)?)?(?:&onlyMine=(?:true|false)?)?(?:&page=\d+)?(?:&size=\d+)?$/;
-
 
 switch (pathName){
     case '/':{
@@ -83,37 +82,26 @@ switch (pathName){
     }
 
     default:
-        // if (regularForConcretePost.test(pathName)) {
-        //     response = await fetch('/postDirectory/concretePost.html');
-        //     dataForResponse = await response.text();
-        //     contentOfACard = document.getElementById('concreteCard');
-        //     contentOfACard.innerHTML = dataForResponse;
-        //     await checkUserLogging();
-        //     contentOfACard.querySelectorAll('script').forEach(script => {
-        //         const newScript = document.createElement("script")
-        //         Array.from(script.attributes).forEach(attr => {
-        //             newScript.setAttribute(attr.name, attr.value)
-        //         })
-        //         newScript.appendChild(document.createTextNode(script.innerHTML))
-        //         script.parentNode.replaceChild(newScript, script)
-        //     });
-        // }
-        // else if(regularForCommunity.test(pathName)){
-        //     response = await fetch('/mainPageOfCommunitiesDirectory/mainPageOfCommunities.html');
-        //     dataForResponse = await response.text();
-        //     contentOfACard = document.getElementById('concreteCard');
-        //     contentOfACard.innerHTML = dataForResponse;
-        //     await checkUserLogging();
-        //     contentOfACard.querySelectorAll('script').forEach(script => {
-        //         const newScript = document.createElement("script")
-        //         Array.from(script.attributes).forEach(attr => {
-        //             newScript.setAttribute(attr.name, attr.value)
-        //         })
-        //         newScript.appendChild(document.createTextNode(script.innerHTML))
-        //         script.parentNode.replaceChild(newScript, script)
-        //     });
-        // }
-        if(regularForPatients.test(pathName)){
+        if (regularForPatientsWithGuid.test(pathName)) {
+            response = await fetch('/MedicalCardDirectory/medicalCard.html');
+            dataForResponse = await response.text();
+            contentOfACard = document.getElementById('concreteCard');
+            contentOfACard.innerHTML = dataForResponse;
+            if(await checkUserToken()===false){
+                window.location.href = "/login";
+                break;
+            }
+            contentOfACard.querySelectorAll('script').forEach(script => {
+                const newScript = document.createElement("script")
+                Array.from(script.attributes).forEach(attr => {
+                    newScript.setAttribute(attr.name, attr.value)
+                })
+                newScript.appendChild(document.createTextNode(script.innerHTML))
+                script.parentNode.replaceChild(newScript, script)
+            });
+            break;
+        }
+        else if(regularForPatients.test(pathName)){
             response = await fetch('PatientsDirectory/patientsCard.html');
             dataForResponse = await response.text();
             contentOfACard = document.getElementById('concreteCard');
