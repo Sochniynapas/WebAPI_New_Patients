@@ -1,4 +1,4 @@
-import {getPatient, getPatients} from "../../curls.js";
+import {getDiagnosis, getPatient} from "../../curls.js";
 import {formatDateForServer} from "../../MainCodes/mainFunctions.js";
 
 
@@ -14,13 +14,6 @@ export async function handleSortInspections(page, size) {
 
 
         const queryParams = new URLSearchParams();
-        page !== undefined ? queryParams.append('page', page) : null;
-        size !== undefined ? queryParams.append('size', size) : null;
-        if (selectedMKB.length > 0) {
-            for (const MKB of selectedMKB) {
-                queryParams.append('icdRoots', MKB);
-            }
-        }
 
         if(showAll === false){
             queryParams.append('grouped', true);
@@ -29,11 +22,20 @@ export async function handleSortInspections(page, size) {
             queryParams.append('grouped', false)
         }
 
+        if (selectedMKB.length > 0) {
+            for (const MKB of selectedMKB) {
+                queryParams.append('icdRoots', MKB);
+            }
+        }
+
+        page !== undefined ? queryParams.append('page', page) : null;
+        size !== undefined ? queryParams.append('size', size) : null;
+
 
         const fullUrl = `${getPatient}${localStorage.getItem('patientId')}/inspections?${queryParams.toString()}`;
 
-        history.pushState("","",`?${queryParams.toString()}`);
-
+        history.pushState("","",`/patient/${localStorage.getItem('patientId')}/inspections?${queryParams.toString()}`);
+        debugger
         const response = await fetch(fullUrl, {
             method: 'GET',
             headers: {
@@ -190,7 +192,7 @@ async function updatePageFromUrl() {
     page !== undefined ? queryParams.append('page', page) : null;
     size.value.trim() !== "" ? queryParams.append('size', size.value) : null;
     console.log(queryParams.toString());
-
+    debugger
     const fullUrl = `${getPatient}${localStorage.getItem('patientId')}/inspections?${queryParams.toString()}`;
 
     const response = await fetch(fullUrl, {
@@ -216,7 +218,17 @@ async function updatePageFromUrl() {
     }
 }
 
-export async function getSpecialtiesList(){
+async function getMKB(){
+
+    const response = await fetch (`${getDiagnosis}`,{
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    const data = await response.json();
+
+    return data;
 
 }
 export async function fillParamsOfPatient(id){
@@ -231,7 +243,16 @@ export async function fillParamsOfPatient(id){
         const data = await response.json();
         document.getElementById("nameOfPatient").textContent = data.name;
         document.getElementById("bDate").textContent += " " + formatDateForServer(data.birthday);
-
+        const mkbSelect = document.getElementById("MKB");
+        mkbSelect.innerHTML = '';
+        debugger
+        const mkbList = await getMKB();
+        mkbList.forEach(MKB => {
+            const option = document.createElement('option');
+            option.value = MKB.id;
+            option.text = MKB.name;
+            mkbSelect.appendChild(option);
+        });
 
     }
     catch (error){

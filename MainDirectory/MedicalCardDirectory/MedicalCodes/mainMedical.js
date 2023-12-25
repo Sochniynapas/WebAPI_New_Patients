@@ -2,9 +2,6 @@ import {fillParamsOfPatient, handleSortInspections, initializePage} from "./medi
 
 const currentUrl = window.location.href;
 const urlParts = currentUrl.split('/patient/');
-$(document).ready(function() {
-    $('#MKB').select2();
-});
 
 if (urlParts.length > 1) {
 
