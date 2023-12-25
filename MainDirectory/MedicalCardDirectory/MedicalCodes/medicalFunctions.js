@@ -98,7 +98,6 @@ export async function createInspection(data) {
     postHTML.querySelector('#final').textContent += " " + final;
     postHTML.querySelector('#diagnose').innerHTML += " " + mainDiagnosis;
     postHTML.querySelector('#doctor').innerHTML += " " + doctor;
-
     inspectionContainer.appendChild(postHTML);
 
 }
@@ -241,7 +240,9 @@ export async function fillParamsOfPatient(id){
             },
         });
         const data = await response.json();
-        document.getElementById("nameOfPatient").textContent = data.name;
+        console.log(data);
+        const gender = data.gender === 'Male' ? '♂' : '♀';
+        document.getElementById("nameOfPatient").textContent = data.name + " " + gender;
         document.getElementById("bDate").textContent += " " + formatDateForServer(data.birthday);
         const mkbSelect = document.getElementById("MKB");
         mkbSelect.innerHTML = '';

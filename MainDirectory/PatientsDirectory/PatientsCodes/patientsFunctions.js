@@ -3,8 +3,6 @@ import {formatDateForServer} from "../../MainCodes/mainFunctions.js";
 
 export async function handleSortPatients(page, size) {
     try {
-
-
         const conclusions = document.getElementById('conclusions');
         const selectedConclusion = Array.from(conclusions.selectedOptions).map(option => option.value);
         const authorInput = document.getElementById('authorName').value;
@@ -71,9 +69,11 @@ export async function createPatient(data) {
     postHTML.innerHTML = postString;
     console.log(data);
     postHTML.querySelector('#name').textContent += " " + data.name;
-    // postHTML.querySelector('#email').textContent = data.title;
     postHTML.querySelector('#gender').textContent += " " + gender;
     postHTML.querySelector('#birthday').innerHTML += " " + birthday;
+    postHTML.querySelector('#patient').addEventListener('click', async function () {
+        window.location.href = `/patient/${data.id}`;
+    });
 
     patientContainer.appendChild(postHTML);
 
