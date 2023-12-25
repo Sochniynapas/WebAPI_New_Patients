@@ -6,10 +6,9 @@ let response;
 const logoutItem = document.getElementById('logoutItem');
 const pathName = window.location.pathname;
 export const regularForConcretePatient = /^\/patient\/([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$/;
-// export const regularForCommunity = /^\/communities\/([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}).*$/;
 export const regularForPatients = /^\/patients(?:\?name=[a-zA-Z]+)?(?:&conclusions=(?:Disease|Recovery|Death(?:,Disease|,Recovery|,Death)*)+)?(?:&sorting=(?:NameAsc|NameDesc|CreateAsc|CreateDesc|InspectionAsc|InspectionDesc)?)?(?:&scheduledVisits=(?:true|false)?)?(?:&onlyMine=(?:true|false)?)?(?:&page=\d+)?(?:&size=\d+)?$/;
 
-
+debugger
 switch (pathName){
     case '/':{
         response = await fetch('/index.html');
@@ -84,7 +83,7 @@ switch (pathName){
 
     default:
         if (regularForConcretePatient.test(pathName)) {
-            response = await fetch('MedicalCardDirectory/medicalCard.html');
+            response = await fetch('/MedicalCardDirectory/medicalCard.html');
             dataForResponse = await response.text();
             contentOfACard = document.getElementById('concreteCard');
             contentOfACard.innerHTML = dataForResponse;
@@ -97,23 +96,9 @@ switch (pathName){
                 newScript.appendChild(document.createTextNode(script.innerHTML))
                 script.parentNode.replaceChild(newScript, script)
             });
+            break;
         }
-        // else if(regularForCommunity.test(pathName)){
-        //     response = await fetch('/mainPageOfCommunitiesDirectory/mainPageOfCommunities.html');
-        //     dataForResponse = await response.text();
-        //     contentOfACard = document.getElementById('concreteCard');
-        //     contentOfACard.innerHTML = dataForResponse;
-        //     await checkUserLogging();
-        //     contentOfACard.querySelectorAll('script').forEach(script => {
-        //         const newScript = document.createElement("script")
-        //         Array.from(script.attributes).forEach(attr => {
-        //             newScript.setAttribute(attr.name, attr.value)
-        //         })
-        //         newScript.appendChild(document.createTextNode(script.innerHTML))
-        //         script.parentNode.replaceChild(newScript, script)
-        //     });
-        // }
-        if(regularForPatients.test(pathName)){
+        else if(regularForPatients.test(pathName)){
             response = await fetch('PatientsDirectory/patientsCard.html');
             dataForResponse = await response.text();
             contentOfACard = document.getElementById('concreteCard');
