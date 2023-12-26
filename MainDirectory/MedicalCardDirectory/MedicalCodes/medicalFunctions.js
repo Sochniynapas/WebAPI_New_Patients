@@ -6,8 +6,6 @@ import {formatDateForServer} from "../../MainCodes/mainFunctions.js";
 
 export async function handleSortInspections(page, size) {
     try {
-
-
         const MKB = document.getElementById('MKB');
         const selectedMKB = Array.from(MKB.selectedOptions).map(option => option.value);
         const showAll = document.getElementById('showAll').checked;
@@ -93,6 +91,7 @@ export async function createInspection(data) {
     console.log(data);
     if(final === 'Смерть'){
         postHTML.querySelector('#inspection').classList.replace('bg-light', 'bg-danger');
+        postHTML.querySelector('#addInspection').classList.add('d-none');
     }
     postHTML.querySelector('#date').textContent = date;
     postHTML.querySelector('#final').textContent += " " + final;
