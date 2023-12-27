@@ -1,0 +1,124 @@
+<div class="container">
+    <div class="card bg-body-secondary">
+        <div class="card-body">
+            <div class="row mt-3 ms-1 me-1 ">
+                <div class="col-md-6 fs-3 fw-bold" id="nameOf">
+                    name
+                </div>
+                <div class="col-md-6 d-flex justify-content-end align-items-end" id="birthDate">
+                    data
+                </div>
+            </div>
+            <div class="d-flex justify-content-start form-check form-switch p-0 ms-3">
+                <label class="form-check-label " for="numOfInsp1">Первичный осмотр</label>
+                <input class="form-check-input me-2 ms-2 " type="checkbox" id="numOfInsp1">
+                <label class="form-check-label " for="numOfInsp1">Повторный осмотр</label>
+            </div>
+            <div class="row mt-3 ms-1 me-1">
+                <label for="inspectionDate" class="col-md-6 col-form-label">Дата осмотра</label>
+                <input class="form-control" type="datetime-local" id="inspectionDate">
+            </div>
+        </div>
+    </div>
+    <div class="card mt-3 bg-body-secondary">
+        <div class="card-body">
+            <div >
+                <h5 class="card-title text-primary">Жалобы</h5>
+                <textarea class="form-control" id="complaints" rows="3"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="card mt-3 bg-body-secondary">
+        <div class="card-body">
+            <div >
+                <h5 class="card-title text-primary">Анамнез заболевания</h5>
+                <textarea class="form-control" id="description" rows="3"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="card mt-3 bg-body-secondary">
+        <div class="card-body">
+            <h5 class="card-title text-primary">Консультация</h5>
+            <div>
+                <div id="name" class="fw-bold fs-5">
+                    Консультант:
+                </div>
+                <div id="special" class="" style="opacity: 0.7;">
+                    Специализация консультанта:
+                </div>
+
+            </div>
+            <div class="form-check form-switch p-0  d-flex align-items-center">
+                <label class="form-check-label" for="needConsl">Требуется консультация</label>
+                <input class="form-check-input me-2 ms-2 fs-5" type="checkbox" id="needConsl">
+                <select class="form-control" id="spec">
+                    <option value="">Специализация консультанта</option>
+                </select>
+            </div>
+            <div>
+
+                <label class="form-label " for="comment">Комментарий</label>
+                <textarea class="form-control" id="comment" rows="3"></textarea>
+            </div>
+
+        </div>
+    </div>
+    <div class="card mt-3 bg-body-secondary">
+        <div class="card-body">
+            <h5 class="card-title text-primary">Диагнозы</h5>
+            <div>
+                <span style="opacity: 0.7;">Болезни</span>
+            </div>
+            <select class="form-control" id="speciality">
+                <option value="">Специализация консультанта</option>
+            </select>
+            <div class="row mt-3">
+                <div class="col-md-4">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="grouping" id="mainCheck">
+                        <label class="form-check-label" for="mainCheck">Основной</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="grouping" id="relatedCheck">
+                        <label class="form-check-label" for="relatedCheck">Сопутствующий</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="grouping" id="complicationCheck">
+                        <label class="form-check-label" for="complicationCheck">Осложнение</label>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary mt-2" id="addDiagnosisBtn"><i class="bi bi-plus"></i>Добавить диагноз</button>
+        </div>
+    </div>
+    <div class="card mt-3 bg-body-secondary">
+        <div class="card-body">
+            <h5 class="card-title text-primary">Рекомендации по лечению</h5>
+            <textarea class="form-control" id="recomendation" rows="3"></textarea>
+        </div>
+    </div>
+    <div class="card mt-3 bg-body-secondary">
+        <div class="card-body">
+            <h5 class="card-title text-primary">Заключение</h5>
+            <div class="row">
+                <div class="col-md-4">
+                    <label class="form-label" for="conclusions" style="opacity: 0.7;">Заключение</label>
+                    <select class="form-control" id="conclusions">
+                        <option value="">Выбрать</option>
+                        <option value="Recovery">Выздоровление</option>
+                        <option value="Disease">Болезнь</option>
+                        <option value="Death">Смерть</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="conclusDate" class="col-form-label">Дата осмотра</label>
+                    <input class="form-control" type="datetime-local" id="conclusDate">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
