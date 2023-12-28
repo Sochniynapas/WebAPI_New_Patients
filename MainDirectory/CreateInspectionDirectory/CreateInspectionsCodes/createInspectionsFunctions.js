@@ -17,15 +17,6 @@ export async function fillTheParams(){
     document.getElementById('bDate').textContent = await formatDateForServer(data.birthday);
     document.getElementById('name').textContent = data.name + " " + gender;
 
-    const responseSpec = await fetch(`${getSpecialities}`,{
-        method:'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    });
-    const spec = await responseSpec.json();
-    console.log(spec);
-
     $(speciality).select2({
         ajax: {
             url: `${getSpecialities}`,
@@ -52,19 +43,12 @@ export async function fillTheParams(){
         placeholder: 'Выберите объект'
     });
     $(speciality).on('change', function () {
+        debugger
         const selectedData = $(this).select2('data')[0];
         console.log(selectedData);
         console.log(document.getElementById('speciality').value);
     });
-    const responseDiag = await fetch(`${getDiagnosisDict}`,{
-        method:'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    });
-    const diag = await responseDiag.json();
-    console.log(diag);
-    debugger
+
     $(ill).select2({
         ajax: {
             url: `${getDiagnosisDict}`,
@@ -72,7 +56,7 @@ export async function fillTheParams(){
             dataType: 'json',
             data: function (params) {
                 return {
-                    name: params.term,
+                    request: params.term,
                     page: 1,
                     size: 5
                 };
@@ -91,8 +75,9 @@ export async function fillTheParams(){
         placeholder: 'Выберите объект'
     });
     $(ill).on('change', function () {
+        debugger
         const selectedData = $(this).select2('data')[0];
         console.log(selectedData);
-        console.log(document.getElementById('speciality').value);
+        console.log(document.getElementById('ill').value);
     });
 }
