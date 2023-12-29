@@ -21,7 +21,7 @@
             </div>
         </div>
         <label for="date">Дата осмотра</label>
-        <input class="form-control w-25" id="date" type="date">
+        <input class="form-control w-25" id="date" type="datetime-local">
     </div>
     <div class="container bg-light p-2 mt-2">
         <div class="h3 text-primary">
@@ -37,13 +37,11 @@
     </div>
     <div class="container bg-light p-2 mt-2">
         <div class="h3 text-primary">
-            Консультация
+            Консультации
         </div>
         <div id="consultation">
-            <div class="container d-none" id="consContainer">
-                <div class="h3 container">Консультация</div>
-                <div class="container text-secondary" id="spec">Специальность</div>
-                <div class="container text-secondary" id="com">Комментарий</div>
+            <div class="container d-block" id="consContainer">
+
             </div>
         </div>
         <div class="container bg-light p-2">
@@ -55,12 +53,13 @@
                     </div>
                 </div>
                 <div class="col">
+                    <label class="text-secondary" for="speciality">Специальность</label>
                     <select class="form-control" id="speciality"></select>
 
                 </div>
             </div>
             <label for="comment">Комментарий</label>
-            <textarea class="form-control" id="comment" readonly></textarea>
+            <textarea class="form-control" id="comment"></textarea>
         </div>
         <button class="btn btn-primary" id="addConsultation" disabled>Добавить консультации</button>
     </div>
@@ -69,10 +68,8 @@
             Диагнозы
         </div>
         <div id="diagnosis">
-            <div class="container d-none" id="diagnosisContainer">
-                <div class="h3 container" id="headDiagnosis"></div>
-                <div class="container text-secondary" id="type"></div>
-                <div class="container text-secondary" id="desc"></div>
+            <div class="container" id="diagnosisContainer">
+
             </div>
         </div>
         <label class="text-secondary" for="DescriptionDiagnoses">Болезни</label>
@@ -119,7 +116,7 @@
             </div>
             <div class="col-6">
                 <label class="text-secondary" id="labelDate" for="finalD">Дата следующего визита</label>
-                <input class="form-control" id="finalD" type="date">
+                <input type="datetime-local" class="form-control nextDate" id="finalD">
             </div>
         </div>
     </div>
