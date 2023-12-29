@@ -30,8 +30,19 @@ export async function fillTheParams() {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
     });
+    debugger
+    const ff = await fetch(`${getPatients}/${localStorage.getItem('patientId')}/inspections/search`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+    })
+    const ffd = await ff.json();
+    console.log(ffd);
     let speciality = document.getElementById('speciality');
     let ill = document.getElementById('ill');
+    let mainInspect = document.getElementById('mainInspect');
     const data = await response.json();
     const gender = data.gender === 'Male' ? '♂' : '♀';
     document.getElementById('bDate').textContent = await formatDateForServer(data.birthday);
@@ -55,6 +66,32 @@ export async function fillTheParams() {
                 data.specialties.unshift({text: 'Не выбрано', id: ""});
                 return {
                     results: data.specialties.map(item => ({
+                        text: item.name,
+                        id: item.id,
+                    }))
+                };
+            },
+            cache: true
+        },
+        placeholder: 'Выберите объект'
+    });
+    $(mainInspect).select2({
+        ajax: {
+            url: `${getPatients}/${localStorage.getItem('patientId')}/inspections/search`,
+            type: 'GET',
+            dataType: 'json',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+            data: function (params) {
+                return {
+                    request: params.term,
+                };
+            },
+            processResults: function (data) {
+                data.diagnosis.unshift({text: 'Не выбрано', id: ""});
+                return {
+                    results: data.diagnosis.map(item => ({
                         text: item.name,
                         id: item.id,
                     }))
@@ -103,7 +140,18 @@ export async function fillTheParams() {
         console.log(document.getElementById('ill').value);
     });
 }
-
+export async function ifNotFirst(){
+    debugger
+    const triggered = document.getElementById('switchInspection').value;
+    if(triggered === 'on'){
+        document.getElementById('mainInspect').classList.replace('d-none', 'd-block')
+        document.getElementById('switchInspection').value = 'off';
+    }
+    else{
+        document.getElementById('mainInspect').classList.replace('d-block', 'd-none')
+        document.getElementById('switchInspection').value = 'on';
+    }
+}
 export async function createInspection() {
 
     const diagnoses = [];
@@ -111,52 +159,55 @@ export async function createInspection() {
     const consultObjects = document.querySelectorAll('#consContainer');
     const consult = [];
 
-
+    debugger
     diagnosesObjects.forEach((element, index) => {
-        const icdDiagnosisId = element.querySelector('#headDiagnosis').value;
+        if(element.querySelector('#headDiagnosis') !== null) {
 
-        const description = element.querySelector('#desc').value;
+            const icdDiagnosisId = element.querySelector('#headDiagnosis').value;
 
-        const type = element.querySelector('#type').value;
+            const description = element.querySelector('#desc').value;
+
+            const type = element.querySelector('#type').value;
 
 
-        if (icdDiagnosisId || description || type) {
-            const d = {
-                icdDiagnosisId : icdDiagnosisId,
-                description : description,
-                type : type
+            if (icdDiagnosisId || description || type) {
+                const d = {
+                    icdDiagnosisId: icdDiagnosisId,
+                    description: description,
+                    type: type
+                }
+                diagnoses.push(d);
             }
-            diagnoses.push(d);
         }
 
     });
     consultObjects.forEach((element, index) => {
+        if(element.querySelector('#spec')!==null) {
+            const specialityId = element.querySelector('#spec').value
 
-        const specialityId = element.querySelector('#spec').value
-
-        const content = element.querySelector('#com').value
+            const content = element.querySelector('#com').value
 
 
-        if (specialityId || content) {
-            const d = {
-                specialityId : specialityId,
-                comment : {
-                    content: content
-                },
+            if (specialityId || content) {
+                const d = {
+                    specialityId: specialityId,
+                    comment: {
+                        content: content
+                    },
+                }
+                consult.push(d);
             }
-            consult.push(d);
         }
 
     });
     debugger
     const deathDate = document.querySelector('.deathDate') ? document.getElementById('finalD').value : undefined;
     const nextDate = document.querySelector('.nextDate') ? document.getElementById('finalD').value : undefined;
-    debugger
     const formData = {
-        date: document.getElementById('date').value,
-        anamnesis: document.getElementById('anam').value,
-        complaints: document.getElementById('complaint').value,
-        treatment: document.getElementById('recommendations').value,
+        date: document.getElementById('date').value || undefined,
+        anamnesis: document.getElementById('anam').value || undefined,
+        complaints: document.getElementById('complaint').value || undefined,
+        treatment: document.getElementById('recommendations').value || undefined,
         conclusion: await checkConclusion(document.getElementById('final').value),
         nextVisitDate: nextDate,
         deathDate: deathDate,
