@@ -149,8 +149,8 @@ export async function createInspection() {
 
     });
     debugger
-    const deathDate = document.querySelector('.deathDate') ? document.getElementById('finalD').value : '';
-    const nextDate = document.querySelector('.nextDate') ? document.getElementById('finalD').value : '';
+    const deathDate = document.querySelector('.deathDate') ? document.getElementById('finalD').value : undefined;
+    const nextDate = document.querySelector('.nextDate') ? document.getElementById('finalD').value : undefined;
     debugger
     const formData = {
         date: document.getElementById('date').value,
@@ -159,7 +159,7 @@ export async function createInspection() {
         treatment: document.getElementById('recommendations').value,
         conclusion: await checkConclusion(document.getElementById('final').value),
         nextVisitDate: nextDate,
-        // deathDate: deathDate,
+        deathDate: deathDate,
         // previousInspectionId: document.getElementById('speciality').value || '',
         diagnoses: diagnoses,
         consultations: consult
@@ -208,6 +208,7 @@ async function checkConclusion(conclusion){
 
 }
 export async function createDiagnoses() {
+    debugger
     const diagnosisContainer = document.getElementById('diagnosisContainer');
     const response = await fetch('/CreateInspectionDirectory/diagnosesCard.html');
     const postString = await response.text();

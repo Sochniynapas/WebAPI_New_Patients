@@ -35,3 +35,9 @@ export function formatDateForServer(dateString) {
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
 }
+export async function clearTextIll(){
+    document.querySelector('#ill').textContent = '';
+}
+export async function clearTextSpec(){
+    document.querySelector('#speciality').textContent = '';
+}
