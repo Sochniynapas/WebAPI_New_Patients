@@ -80,6 +80,25 @@ switch (pathName){
         });
         break;
     }
+    case '/inspection/create':{
+        response = await fetch('/CreateInspectionDirectory/createInspection.html');
+        dataForResponse = await response.text();
+        contentOfACard = document.getElementById('concreteCard');
+        contentOfACard.innerHTML = dataForResponse;
+        if(await checkUserToken()===false){
+            window.location.href = "/login";
+            break;
+        }
+        contentOfACard.querySelectorAll('script').forEach(script => {
+            const newScript = document.createElement("script")
+            Array.from(script.attributes).forEach(attr => {
+                newScript.setAttribute(attr.name, attr.value)
+            })
+            newScript.appendChild(document.createTextNode(script.innerHTML))
+            script.parentNode.replaceChild(newScript, script)
+        });
+        break;
+    }
 
     default:
         if (regularForPatientsWithGuid.test(pathName)) {
