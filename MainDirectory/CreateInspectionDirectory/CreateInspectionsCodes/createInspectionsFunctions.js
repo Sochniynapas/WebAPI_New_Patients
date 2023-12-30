@@ -101,9 +101,8 @@ export async function fillTheParams() {
             cache: true
         },
         templateResult: function (data) {
-            // Добавляем дату к отображению каждого элемента
             if (!data.id) {
-                return data.text; // Для заглушки "Не выбрано"
+                return data.text;
             }
             return $('<span>' + data.text + '</span><span class="date"> - ' + formatDateForServer(data.date) + '</span>');
         },
