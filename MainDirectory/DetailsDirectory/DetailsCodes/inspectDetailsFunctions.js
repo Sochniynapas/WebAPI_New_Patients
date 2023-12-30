@@ -17,6 +17,7 @@ export async function LoadPatientDetails(id) {
     const inputDate = await refactorDate(inspectionResult.patient.birthday.substring(0, 10));
     const inputTime = await refactorDate(inspectionResult.createTime.substring(0, 10));
 
+
     const time = inspectionResult.createTime.substring(11, 16);
     const conclusion = inspectionResult.conclusion;
     let conclusionText;
@@ -59,6 +60,18 @@ export async function LoadPatientDetails(id) {
 
     const conclusionElement = document.getElementById('conclus');
     conclusionElement.innerHTML += conclusionText;
+
+    if(inspectionResult.nextVisitDate){
+        const dateNextInsp=await refactorDate(inspectionResult.nextVisitDate.substring(0, 10))
+        const netxVisTime=inspectionResult.nextVisitDate.substring(11,16)
+        document.getElementById('nextVisit').innerHTML+=dateNextInsp+' '+netxVisTime
+
+    }
+    if(inspectionResult.deathDate){
+        const dateNextInsp=await refactorDate(inspectionResult.deathDate.substring(0, 10))
+        const netxVisTime=inspectionResult.deathDate.substring(11,16)
+        document.getElementById('deathTime').innerHTML+=dateNextInsp+' '+netxVisTime
+    }
 
     if (inspectionResult.conclusion == 'Death') {
         document.getElementById('nextVisit').style.display = 'none';
