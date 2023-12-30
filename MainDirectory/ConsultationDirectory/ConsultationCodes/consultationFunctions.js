@@ -1,8 +1,5 @@
-import {getDiagnosis, getPatient} from "../../curls.js";
+import {getDiagnosis, getInspWithCons} from "../../curls.js";
 import {formatDateForServer} from "../../MainCodes/mainFunctions.js";
-
-
-
 
 export async function handleSortInspections(page, size) {
     try {
@@ -32,9 +29,9 @@ export async function handleSortInspections(page, size) {
         size !== undefined ? queryParams.append('size', size) : null;
 
 
-        const fullUrl = `${getPatient}${localStorage.getItem('patientId')}/inspections?${queryParams.toString()}`;
+        const fullUrl = `${getInspWithCons}?${queryParams.toString()}`;
 
-        history.pushState("","",`/patient/${localStorage.getItem('patientId')}/inspections?${queryParams.toString()}`);
+        history.pushState("","",`/consultation?${queryParams.toString()}`);
 
         const response = await fetch(fullUrl, {
             method: 'GET',
@@ -81,7 +78,7 @@ async function checkConclusion(conclusion){
 export async function createInspection(data) {
     const inspectionContainer = document.getElementById('inspections-container');
 
-    const response = await fetch('/MedicalCardDirectory/inspectionCard.html');
+    const response = await fetch('/ConsultationDirectory/consultationInListCard.html');
     const postString = await response.text();
     const postHTML = document.createElement('div');
     const date = formatDateForServer(data.date);
@@ -93,11 +90,7 @@ export async function createInspection(data) {
     console.log(data);
     if(final === 'Смерть'){
         postHTML.querySelector('#inspection').classList.replace('bg-light', 'bg-danger');
-        postHTML.querySelector('#addInspectionConcrete').classList.add('d-none');
     }
-    postHTML.querySelector('#addInspectionConcrete').addEventListener('click', async ()=>{
-       window.location.href = '/inspection/create';
-    });
     postHTML.querySelector('#date').textContent = date;
     postHTML.querySelector('#final').textContent += " " + final;
     postHTML.querySelector('#diagnose').innerHTML += " " + mainDiagnosis;
@@ -176,7 +169,7 @@ export async function displayPageControllers(data, pageStr) {
 
 async function updatePageFromUrl() {
     const currentParams = new URLSearchParams(window.location.search);
-
+    debugger
     const MKB = document.getElementById('MKB');
     const groupBy = document.getElementById('groupBy');
     const showAll = document.getElementById('showAll');
@@ -201,8 +194,8 @@ async function updatePageFromUrl() {
     size.value.trim() !== "" ? queryParams.append('size', size.value) : null;
     console.log(queryParams.toString());
 
-    const fullUrl = `${getPatient}${localStorage.getItem('patientId')}/inspections?${queryParams.toString()}`;
-
+    const fullUrl = `${getInspWithCons}?${queryParams.toString()}`;
+    debugger
     const response = await fetch(fullUrl, {
         method: 'GET',
         headers: {
@@ -239,23 +232,15 @@ async function getMKB(){
     return data;
 
 }
-export async function fillParamsOfPatient(id){
+export async function fillMKB(){
     try {
-        const response = await fetch(`${getPatient}${id}`,{
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            },
-        });
-        const data = await response.json();
-        console.log(data);
-        const gender = data.gender === 'Male' ? '♂' : '♀';
-        document.getElementById("nameOfPatient").textContent = data.name + " " + gender;
-        document.getElementById("bDate").textContent += " " + formatDateForServer(data.birthday);
+
         const mkbSelect = document.getElementById("MKB");
         mkbSelect.innerHTML = '';
-
+        const defaultOption = document.createElement('option');
+        defaultOption.value = undefined;
+        defaultOption.text = '--';
+        mkbSelect.appendChild(defaultOption);
         const mkbList = await getMKB();
         mkbList.forEach(MKB => {
             const option = document.createElement('option');
@@ -263,18 +248,11 @@ export async function fillParamsOfPatient(id){
             option.text = MKB.name;
             mkbSelect.appendChild(option);
         });
-
     }
     catch (error){
         console.error("Ошибка при получении пациента")
     }
-
-
 }
-
-
-
-
 export async function initializePage(){
     await updatePageFromUrl();
 }
