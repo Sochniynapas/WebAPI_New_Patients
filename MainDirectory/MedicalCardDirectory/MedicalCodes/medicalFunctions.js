@@ -98,6 +98,10 @@ export async function createInspection(data) {
     postHTML.querySelector('#addInspectionConcrete').addEventListener('click', async ()=>{
        window.location.href = '/inspection/create';
     });
+    postHTML.querySelector('#inspectionDetails').value = data.id;
+    postHTML.querySelector('#inspectionDetails').addEventListener('click', async()=>{
+        window.location.href=`/inspection/${data.id}`;
+    });
     postHTML.querySelector('#date').textContent = date;
     postHTML.querySelector('#final').textContent += " " + final;
     postHTML.querySelector('#diagnose').innerHTML += " " + mainDiagnosis;

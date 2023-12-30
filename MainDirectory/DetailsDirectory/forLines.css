@@ -1,0 +1,17 @@
+#request {
+    color: blue;
+    cursor: pointer;
+}
+
+#request:hover {
+    cursor: pointer;
+}
+
+.blue-text {
+    color: blue;
+    cursor: pointer;
+}
+
+.blue-text:hover {
+    cursor: pointer;
+}
