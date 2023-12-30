@@ -93,6 +93,9 @@ export async function createInspection(data) {
         postHTML.querySelector('#inspection').classList.replace('bg-light', 'bg-danger');
         postHTML.querySelector('#addInspection').classList.add('d-none');
     }
+    postHTML.querySelector('#addInspectionConcrete').addEventListener('click', async ()=>{
+       window.location.href = '/inspection/create';
+    });
     postHTML.querySelector('#date').textContent = date;
     postHTML.querySelector('#final').textContent += " " + final;
     postHTML.querySelector('#diagnose').innerHTML += " " + mainDiagnosis;
