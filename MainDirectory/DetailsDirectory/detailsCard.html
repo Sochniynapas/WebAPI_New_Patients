@@ -1,0 +1,209 @@
+<div class="container">
+    <div class="card bg-body-secondary mt-3">
+        <div class="card-body">
+            <div class="col-md-12 row justify-content-between">
+                <h2 class="col-md-8 fw-bold fs-4" id="inspectTitle">Амбулаторный осмотр от </h2>
+                <button class="btn btn-primary col-md-2" data-bs-toggle="modal" data-bs-target="#registrationModal">Редактировать</button>
+            </div>
+            <div id="pacientName" class="fw-bold">
+                Пациент:
+            </div>
+            <div id="gender">
+                Пол:
+            </div>
+            <div id="birthDate">
+                Дата рождение:
+            </div>
+            <div id="doctor" style="opacity: 0.7;">
+                Медицинский работник:
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="registrationModal" tabindex="-1" aria-labelledby="registrationModalLabel" aria-hidden="true">
+        <div class="container">
+            <div class="h1 container">
+                Создание осмотра
+            </div>
+            <div class="container bg-light p-2" id="headContainer">
+                <div class="row">
+                    <div class="h3 col" id="name"></div>
+                    <div class="col text-secondary text-end" id="bDate"></div>
+                </div>
+                <div>
+                    <div class="row col-md-4">
+                        <div class="col-md-5">
+                            <label class="form-check-label">Первичный осмотр</label>
+                        </div>
+                        <div class="col-md-2 form-check form-switch d-flex justify-content-center">
+                            <input class="form-check-input" type="checkbox" role="switch" id="switchInspection">
+                        </div>
+                        <div class="col-md-5 text-end">
+                            <label class="form-check-label">Повторный осмотр</label>
+                        </div>
+                    </div>
+                    <div>
+                        <select id="mainInspect" class="d-none"></select>
+                    </div>
+                </div>
+                <label for="date">Дата осмотра</label>
+                <input class="form-control w-25" id="date" type="datetime-local">
+            </div>
+            <div class="container bg-light p-2 mt-2">
+                <div class="h3 text-primary">
+                    Жалобы
+                </div>
+                <textarea class="form-text w-100" id="complaint"></textarea>
+            </div>
+            <div class="container bg-light p-2 mt-2">
+                <div class="h3 text-primary">
+                    Анамнез заболевания
+                </div>
+                <textarea class="form-text w-100" id="anam"></textarea>
+            </div>
+            <div class="container bg-light p-2 mt-2">
+                <div class="h3 text-primary">
+                    Консультации
+                </div>
+                <div id="consultation">
+                    <div class="container d-block" id="consContainer">
+
+                    </div>
+                </div>
+                <div class="container bg-light p-2">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="needCons">
+                                <label class="form-check-label" for="needCons">Требуется консультация</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label class="text-secondary" for="speciality">Специальность</label>
+                            <select class="form-control" id="speciality"></select>
+
+                        </div>
+                    </div>
+                    <label for="comment">Комментарий</label>
+                    <textarea class="form-control" id="comment" disabled></textarea>
+                </div>
+                <button class="btn btn-primary" id="addConsultation" disabled>Добавить консультации</button>
+            </div>
+            <div class="container bg-light p-2 mt-2">
+                <div class="h3 text-primary">
+                    Диагнозы
+                </div>
+                <div id="diagnosis">
+                    <div class="container" id="diagnosisContainer">
+
+                    </div>
+                </div>
+                <label class="text-secondary" for="DescriptionDiagnoses">Болезни</label>
+                <div id="DescriptionDiagnoses">
+                    <select class="form-control" id="ill"></select>
+                    <input class="form-control mt-1" id="description">
+                </div>
+                <label class="text-secondary" for="Types">Тип диагноза: </label>
+                <div id="Types">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="main" value="option1">
+                        <label class="form-check-label" for="main">Основной</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="notMain" value="option2">
+                        <label class="form-check-label" for="notMain">Сопутствующий</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="complication"
+                               value="option2">
+                        <label class="form-check-label" for="complication">Осложнение</label>
+                    </div>
+                </div>
+                <button class="btn btn-primary" id="addDiagnosis">Добавить диагноз</button>
+            </div>
+            <div class="container bg-light p-2 mt-2">
+                <div class="h3 text-primary">
+                    Рекомендации
+                </div>
+                <textarea class="w-100" id="recommendations"></textarea>
+            </div>
+            <div class="container bg-light p-2 mt-2">
+                <div class="h3 text-primary">
+                    Заключение
+                </div>
+                <div class="row mt-1">
+                    <div class="col-6">
+                        <label class="text-secondary" for="final">Заключение</label>
+                        <select class="form-select" id="final">
+                            <option>Болезнь</option>
+                            <option>Выздоровел</option>
+                            <option>Смерть</option>
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <label class="text-secondary" id="labelDate" for="finalD">Дата следующего визита</label>
+                        <input type="datetime-local" class="form-control nextDate" id="finalD">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <button class="btn btn-primary" id="createInspection">Создать осмотр</button>
+                <button class="btn btn-secondary" id="cancel">Отмена</button>
+            </div>
+
+        </div>
+    </div>
+    <div class="card bg-body-secondary mt-3">
+        <div class="card-body">
+            <h5 class="card-title text-primary">Жалобы</h5>
+            <span id="complaintInCard"></span>
+        </div>
+    </div>
+    <div class="card bg-body-secondary mt-3">
+        <div class="card-body">
+            <h5 class="card-title text-primary">Анамнез заболевания</h5>
+            <span id="anamnez"></span>
+        </div>
+    </div>
+    <div class="card bg-body-secondary mt-3">
+        <div class="card-body">
+            <h5 class="card-title text-primary">Консультация</h5>
+            <span id="consul"></span>
+            <div id="consultList"></div>
+            <div id="comments">
+                <div class="" id="subComments">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card bg-body-secondary mt-3">
+        <div class="card-body" >
+
+            <h5 class="card-title text-primary">Диагнозы</h5>
+            <div id='Diags'>
+
+            </div>
+        </div>
+    </div>
+    <div class="card bg-body-secondary mt-3">
+        <div class="card-body">
+            <h5 class="card-title text-primary">Рекомендации по лечению</h5>
+            <span id="recomend"></span>
+        </div>
+
+    </div>
+    <div class="card bg-body-secondary mt-3">
+        <div class="card-body">
+            <h5 class="card-title text-primary">Заключение</h5>
+            <div class="fw-bold" id="conclus"  ></div>
+            <div id="nextVisit">
+                Дата следующего визита:
+            </div>
+            <div id="deathTime" style="display: none;">
+                Дата смерти:
+            </div>
+            <span id="time"></span>
+        </div>
+
+    </div>
+</div>
