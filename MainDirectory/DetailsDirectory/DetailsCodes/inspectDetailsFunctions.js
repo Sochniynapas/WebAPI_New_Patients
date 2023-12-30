@@ -1,4 +1,4 @@
-import {getConcreteInspection, getInspWithCons} from "../../curls.js";
+import {getConcreteInspection, getInspWithCons, getProfile} from "../../curls.js";
 import {refactorDate} from "../../MainCodes/mainFunctions.js";
 
 export async function FillTheDetailsParams(id){
@@ -90,12 +90,17 @@ export async function FillTheDetailsParams(id){
             const createTime=comment.createTime.substring(11,19)
             const createDate=await refactorDate(comment.createTime.substring(0, 10))
 
-            const UrlPostComm=consultUrl+'/'+consultId+'/comment'
-            const UrlEditComm=consultUrl+'/'+'comment/'+parentId
 
 
-            const responseForProfile = await fetch()
-            const responseProfile=await fetchGetProfile(token, profileURL)
+            const responseForProfile = await fetch(`${getProfile}`,{
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+
+            const responseProfile=await responseForProfile.json();
 
             const modTime=comment.modifiedDate.substring(11,19)
             const modData=await refactorDate(comment.modifiedDate.substring(0, 10))
@@ -106,7 +111,7 @@ export async function FillTheDetailsParams(id){
             commentElement.querySelector('#date').innerHTML+=createDate+' '+createTime
 
 
-            if(comment.modifiedDate!=comment.createTime){
+            if(comment.modifiedDate !== comment.createTime){
                 const changed=commentElement.querySelector('#changed')
                 changed.style.display='block'
                 changed.addEventListener('mouseover', async function(e){
@@ -117,7 +122,7 @@ export async function FillTheDetailsParams(id){
                 })
             }
 
-            if(responseProfile.id!=comment.authorId){
+            if(responseProfile.id !== comment.authorId){
                 commentElement.querySelector('#editCommentBtn').style.display='none'
             }
 
@@ -153,15 +158,25 @@ export async function FillTheDetailsParams(id){
                 const token=localStorage.getItem('token')
                 if(token){
                     const content=commentElement.querySelector('#commentInput').value
-                    if(content!=''){
+                    if(content !== ''){
                         const data={
                             content,
                             parentId
                         }
                         const GUIDPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+                        debugger
+                        const responseForAddComment = await fetch(`${getInspWithCons}/${consultId}/comment`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${localStorage.getItem('token')}`
+                            },
+                            body: JSON.stringify(data),
+                        });
 
 
-                        const response=await fetchAddComment(token, UrlPostComm, data)
+                        const response = await responseForAddComment.json();
+                        console.log(response);
                         if(GUIDPattern.test(response)){
                             location.reload()
                         }
@@ -177,12 +192,21 @@ export async function FillTheDetailsParams(id){
                 const token=localStorage.getItem('token')
                 if(token){
                     const content=commentElement.querySelector('#commentInputEdit').value
-                    if(content!=''){
+                    if(content !== ''){
                         const data={
                             content
                         }
 
-                        const response=await fetchEditComment(token, UrlEditComm, data)
+                        const responseForEditComment = await fetch(`${getInspWithCons}/comment/${parentId}`,{
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${localStorage.getItem('token')}`
+                            },
+                            body: JSON.stringify(data),
+                        })
+                        const response=await responseForEditComment.json();
+
                         if(response=='200'){
                             location.reload()
                         }
