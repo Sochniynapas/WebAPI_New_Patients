@@ -94,10 +94,18 @@ export async function fillTheParams() {
                     results: data.map(item => ({
                         text: item.diagnosis.name,
                         id: item.diagnosis.id,
+                        date: item.date
                     }))
                 };
             },
             cache: true
+        },
+        templateResult: function (data) {
+            // Добавляем дату к отображению каждого элемента
+            if (!data.id) {
+                return data.text; // Для заглушки "Не выбрано"
+            }
+            return $('<span>' + data.text + '</span><span class="date"> - ' + formatDateForServer(data.date) + '</span>');
         },
         placeholder: 'Выберите объект'
     });
