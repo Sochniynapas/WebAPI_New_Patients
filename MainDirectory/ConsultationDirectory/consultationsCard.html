@@ -1,0 +1,73 @@
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12 mb-5">
+            <div class="mb-3 col-md-12">
+                <div class="justify-content-between row mb-3">
+                    <h3 class="fs-1 fw-bold col-md-6">Консультации</h3>
+                </div>
+                <div class="justify-content-between row">
+                    <h1 id="nameOfPatient" class="fs-3 fw-bold col-md-6"></h1>
+                    <div id="bDate" class="col-md-6 text-end">Дата рождения:</div>
+                </div>
+                <form class="border border-secondary shadow bg-light">
+
+                    <div class="row m-2 d-flex justify-content-between">
+                        <div class="col-md-5">
+                            <label for="MKB" class="form-label">МКБ-10</label>
+                            <select class="form-control" id="MKB"></select>
+                        </div>
+                        <div class="col-md-6 d-flex align-items-end justify-content-between row">
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="grouping" autocomplete="off"
+                                           id="groupBy">
+                                    <label class="form-check-label" for="groupBy">Сгруппировать по повторным</label>
+                                </div>
+                            </div>
+                            <div class="col-md-3 me-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="grouping" autocomplete="on"
+                                           checked id="showAll">
+                                    <label class="form-check-label" for="showAll">Показать все</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between row me-2 ms-2 mb-3 mt-5">
+                        <label for="size" class="form-label text-gray-500 opacity-75">Число осмотров на странице</label>
+                        <div class="col-md-3">
+                            <select class="form-select" id="size">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="button" class="btn btn-primary w-100" id="getFilters">Поиск</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+
+        </div>
+        <div class="container" id="own-inspections">
+            <div id="inspections-container"></div>
+            <div class="row m-2 justify-content-between align-items-center">
+                <div class="col-md-3">
+                    <ul class="pagination mt-3 col-md-6" id="pageForm"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="module" src="/ConsultationDirectory/ConsultationCodes/mainConsultation.js"></script>
