@@ -2,7 +2,7 @@
     <div class="h1 container">
         Создание осмотра
     </div>
-    <div class="container bg-light p-2">
+    <div class="container bg-light p-2" id="headContainer">
         <div class="row">
             <div class="h3 col" id="name"></div>
             <div class="col text-secondary text-end" id="bDate"></div>
@@ -62,7 +62,7 @@
                 </div>
             </div>
             <label for="comment">Комментарий</label>
-            <textarea class="form-control" id="comment"></textarea>
+            <textarea class="form-control" id="comment" disabled></textarea>
         </div>
         <button class="btn btn-primary" id="addConsultation" disabled>Добавить консультации</button>
     </div>
@@ -129,14 +129,16 @@
     </div>
 </div>
 <script type="module" src="/CreateInspectionDirectory/CreateInspectionsCodes/mainCreateInspection.js"></script>
-
+<link rel="stylesheet" href="/CreateInspectionDirectory/forSelect.css">
 <script>
     $(document).ready(function () {
         var checkbox = $('#needCons');
         var addButton = $('#addConsultation');
+        var textContent = $('#comment');
 
         checkbox.change(function () {
             addButton.prop('disabled', !checkbox.is(':checked'));
+            textContent.prop('disabled', !checkbox.is(':checked'));
         });
     });
 </script>

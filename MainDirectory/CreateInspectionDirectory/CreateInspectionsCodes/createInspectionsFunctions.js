@@ -89,11 +89,11 @@ export async function fillTheParams() {
                 };
             },
             processResults: function (data) {
-                data.diagnosis.unshift({text: 'Не выбрано', id: ""});
+                // data.unshift({text: 'Не выбрано', id: ""});
                 return {
-                    results: data.diagnosis.map(item => ({
-                        text: item.name,
-                        id: item.id,
+                    results: data.map(item => ({
+                        text: item.diagnosis.name,
+                        id: item.diagnosis.id,
                     }))
                 };
             },
@@ -139,16 +139,18 @@ export async function fillTheParams() {
         console.log(selectedData);
         console.log(document.getElementById('ill').value);
     });
+    const containerWithSelect = document.getElementById('headContainer');
+    containerWithSelect.querySelector('.select2-container').classList.add('d-none');
 }
 export async function ifNotFirst(){
-    debugger
+    const containerWithSelect = document.getElementById('headContainer');
     const triggered = document.getElementById('switchInspection').value;
     if(triggered === 'on'){
-        document.getElementById('mainInspect').classList.replace('d-none', 'd-block')
+        containerWithSelect.querySelector('.select2-container').classList.replace('d-none', 'd-block')
         document.getElementById('switchInspection').value = 'off';
     }
     else{
-        document.getElementById('mainInspect').classList.replace('d-block', 'd-none')
+        containerWithSelect.querySelector('.select2-container').classList.replace('d-block', 'd-none')
         document.getElementById('switchInspection').value = 'on';
     }
 }
@@ -159,7 +161,6 @@ export async function createInspection() {
     const consultObjects = document.querySelectorAll('#consContainer');
     const consult = [];
 
-    debugger
     diagnosesObjects.forEach((element, index) => {
         if(element.querySelector('#headDiagnosis') !== null) {
 
@@ -203,6 +204,7 @@ export async function createInspection() {
     debugger
     const deathDate = document.querySelector('.deathDate') ? document.getElementById('finalD').value : undefined;
     const nextDate = document.querySelector('.nextDate') ? document.getElementById('finalD').value : undefined;
+    const selectedData = $(document.getElementById('mainInspect')).select2('data')[0] === undefined? undefined : $(document.getElementById('mainInspect')).select2('data')[0].id;
     const formData = {
         date: document.getElementById('date').value || undefined,
         anamnesis: document.getElementById('anam').value || undefined,
@@ -211,7 +213,7 @@ export async function createInspection() {
         conclusion: await checkConclusion(document.getElementById('final').value),
         nextVisitDate: nextDate,
         deathDate: deathDate,
-        // previousInspectionId: document.getElementById('speciality').value || '',
+        previousInspectionId: selectedData,
         diagnoses: diagnoses,
         consultations: consult
 
