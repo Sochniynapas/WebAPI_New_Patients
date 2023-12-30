@@ -1,171 +1,175 @@
 import {getConcreteInspection, getInspWithCons, getProfile} from "../../curls.js";
 import {refactorDate} from "../../MainCodes/mainFunctions.js";
 
-export async function FillTheDetailsParams(id){
-    const responseData = await fetch(`${getConcreteInspection}${id}`,{
+export async function LoadPatientDetails(id) {
+    const inspectionData = await fetch(`${getConcreteInspection}${id}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
     });
-    debugger
-    const response = await responseData.json();
-    console.log(response)
-    const gender=(response.patient.gender==="Male"? "Мужской" : "Женский")
 
-    const inputDate =await refactorDate(response.patient.birthday.substring(0, 10))
-    const inputTime =await refactorDate(response.createTime.substring(0, 10))
+    const inspectionResult = await inspectionData.json();
+    console.log(inspectionResult);
 
-    const time=response.createTime.substring(11,16)
-    const conclus=response.conclusion
-    let conclusVal
+    const gender = (inspectionResult.patient.gender === 'Male' ? 'Мужской' : 'Женский');
+    const inputDate = await refactorDate(inspectionResult.patient.birthday.substring(0, 10));
+    const inputTime = await refactorDate(inspectionResult.createTime.substring(0, 10));
 
-    switch (conclus){
+    const time = inspectionResult.createTime.substring(11, 16);
+    const conclusion = inspectionResult.conclusion;
+    let conclusionText;
+
+    switch (conclusion) {
         case 'Disease':
-            conclusVal='Болезнь'
-            break
+            conclusionText = 'Болезнь';
+            break;
         case 'Death':
-            conclusVal='Смерть'
-            break
+            conclusionText = 'Смерть';
+            break;
         case 'Recovery':
-            conclusVal='Выздоровление'
-            break
+            conclusionText = 'Выздоровление';
+            break;
     }
 
-    document.getElementById('pacientName').innerHTML+=response.patient.name
-    document.getElementById('gender').innerHTML+=gender
-    document.getElementById('birthDate').innerHTML+=inputDate
-    document.getElementById('doctor').innerHTML+=response.doctor.name
-    document.getElementById('inspectTitle').innerHTML+=inputTime+' - '+time
-    document.getElementById('complaintInCard').innerHTML+=response.complaints
-    document.getElementById('anamnez').innerHTML+=response.anamnesis
-    document.getElementById('recomend').innerHTML+=response.treatment
-    document.getElementById('conclus').innerHTML+=conclusVal
+    const pacientNameElement = document.getElementById('pacientName');
+    pacientNameElement.innerHTML += inspectionResult.patient.name;
 
+    const genderElement = document.getElementById('gender');
+    genderElement.innerHTML += gender;
 
-    if(response.conclusion=='Death'){
-        document.getElementById('nextVisit').style.display='none'
-        document.getElementById('deathTime').style.display='block'
+    const birthDateElement = document.getElementById('birthDate');
+    birthDateElement.innerHTML += inputDate;
+
+    const doctorElement = document.getElementById('doctor');
+    doctorElement.innerHTML += inspectionResult.doctor.name;
+
+    const inspectTitleElement = document.getElementById('inspectTitle');
+    inspectTitleElement.innerHTML += inputTime + ' - ' + time;
+
+    const complaintInCardElement = document.getElementById('complaintInCard');
+    complaintInCardElement.innerHTML += inspectionResult.complaints;
+
+    const anamnesisElement = document.getElementById('anamnez');
+    anamnesisElement.innerHTML += inspectionResult.anamnesis;
+
+    const treatmentElement = document.getElementById('recomend');
+    treatmentElement.innerHTML += inspectionResult.treatment;
+
+    const conclusionElement = document.getElementById('conclus');
+    conclusionElement.innerHTML += conclusionText;
+
+    if (inspectionResult.conclusion == 'Death') {
+        document.getElementById('nextVisit').style.display = 'none';
+        document.getElementById('deathTime').style.display = 'block';
     }
-    const Diags=document.getElementById('Diags')
 
-    const consultList=document.getElementById('consultList')
+    const diagnosticsElement = document.getElementById('Diags');
+    const consultationListElement = document.getElementById('consultList');
 
-    for(let i=0; i<response.consultations.length;i++){
-        const consult=response.consultations[i]
-        const consultCard= await fetch('/DetailsDirectory/consultCardInDetails.html')
-        const consultToElement=await consultCard.text()
+    for (let i = 0; i < inspectionResult.consultations.length; i++) {
+        const consultation = inspectionResult.consultations[i];
+        const consultationCard = await fetch('/DetailsDirectory/consultCardInDetails.html');
+        const consultationHtml = await consultationCard.text();
 
-        const consultId=consult.id
+        const consultationId = consultation.id;
 
-        const consultElement=document.createElement('div')
-        consultElement.innerHTML=consultToElement
-        consultElement.querySelector('#consulName').innerHTML+=consult.speciality.name
+        const consultationElement = document.createElement('div');
+        consultationElement.innerHTML = consultationHtml;
+        consultationElement.querySelector('#consulName').innerHTML += consultation.speciality.name;
 
-        const comments=consultElement.querySelector('#comments')
-        const subComment=consultElement.querySelector('#subComments')
+        const commentsElement = consultationElement.querySelector('#comments');
+        const subCommentElement = consultationElement.querySelector('#subComments');
 
-        const responseForCons = await fetch(`${getInspWithCons}/${consult.id}`, {
+        const responseForConsultation = await fetch(`${getInspWithCons}/${consultation.id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
         });
-        const responseConsult = await responseForCons.json()
 
+        const consultationResponse = await responseForConsultation.json();
 
+        for (let j = 0; j < consultationResponse.comments.length; j++) {
+            const comment = consultationResponse.comments[j];
+            const commentCard = await fetch('/DetailsDirectory/commentCard.html');
+            const commentHtml = await commentCard.text();
+            const commentElement = document.createElement('div');
+            commentElement.innerHTML = commentHtml;
+            const parentId = comment.id;
 
-        for(let i=0; i<responseConsult.comments.length;i++){
-            const comment=responseConsult.comments[i]
+            const createTime = comment.createTime.substring(11, 19);
+            const createDate = await refactorDate(comment.createTime.substring(0, 10));
 
-            const commentCard= await fetch('/DetailsDirectory/commentCard.html')
-            const commentToElement=await commentCard.text()
-
-            const commentElement=document.createElement('div')
-            commentElement.innerHTML=commentToElement
-            const parentId=comment.id
-
-            const createTime=comment.createTime.substring(11,19)
-            const createDate=await refactorDate(comment.createTime.substring(0, 10))
-
-
-
-            const responseForProfile = await fetch(`${getProfile}`,{
+            const responseForProfile = await fetch(`${getProfile}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
-            })
+            });
 
-            const responseProfile=await responseForProfile.json();
+            const profileResponse = await responseForProfile.json();
 
-            const modTime=comment.modifiedDate.substring(11,19)
-            const modData=await refactorDate(comment.modifiedDate.substring(0, 10))
-            const fullDate=modData+' '+modTime
+            const modTime = comment.modifiedDate.substring(11, 19);
+            const modDate = await refactorDate(comment.modifiedDate.substring(0, 10));
+            const fullDate = modDate + ' ' + modTime;
 
-            commentElement.querySelector('#authorComment').innerHTML+=comment.author
-            commentElement.querySelector('#comContent').innerHTML+=comment.content
-            commentElement.querySelector('#date').innerHTML+=createDate+' '+createTime
+            commentElement.querySelector('#authorComment').innerHTML += comment.author;
+            commentElement.querySelector('#comContent').innerHTML += comment.content;
+            commentElement.querySelector('#date').innerHTML += createDate + ' ' + createTime;
 
-
-            if(comment.modifiedDate !== comment.createTime){
-                const changed=commentElement.querySelector('#changed')
-                changed.style.display='block'
-                changed.addEventListener('mouseover', async function(e){
-                    this.textContent = `Последнее изменение: ${fullDate}`
-                })
-                changed.addEventListener('mouseout', async function(e){
-                    this.textContent = '(изменено)'
-                })
+            if (comment.modifiedDate !== comment.createTime) {
+                const changed = commentElement.querySelector('#changed');
+                changed.style.display = 'block';
+                changed.addEventListener('mouseover', async function (e) {
+                    this.textContent = `Последнее изменение: ${fullDate}`;
+                });
+                changed.addEventListener('mouseout', async function (e) {
+                    this.textContent = '(изменено)';
+                });
             }
 
-            if(responseProfile.id !== comment.authorId){
-                commentElement.querySelector('#editCommentBtn').style.display='none'
+            if (profileResponse.id !== comment.authorId) {
+                commentElement.querySelector('#editCommentBtn').style.display = 'none';
             }
 
+            commentElement.querySelector('#request').addEventListener('click', async function (e) {
+                commentElement.querySelector('#requestForm').style.display = 'block';
+                commentElement.querySelector('#requestFormEdit').style.display = 'none';
+            });
 
+            commentElement.querySelector('#editCommentBtn').addEventListener('click', async function (e) {
+                commentElement.querySelector('#commentInputEdit').value = comment.content;
+                commentElement.querySelector('#requestFormEdit').style.display = 'block';
+                commentElement.querySelector('#requestForm').style.display = 'none';
+            });
 
-            commentElement.querySelector('#request').addEventListener('click', async function(e){
+            commentElement.querySelector('#openSubs').addEventListener('click', async function (e) {
+                subCommentElement.style.display = 'block';
+                commentElement.querySelector('#openSubs').style.display = 'none';
+                commentElement.querySelector('#closeSubs').style.display = 'block';
+            });
 
-                commentElement.querySelector('#requestForm').style.display='block'
-                commentElement.querySelector('#requestFormEdit').style.display='none'
-            })
+            commentElement.querySelector('#closeSubs').addEventListener('click', async function (e) {
+                subCommentElement.style.display = 'none';
+                commentElement.querySelector('#openSubs').style.display = 'block';
+                commentElement.querySelector('#closeSubs').style.display = 'none';
+            });
 
-            commentElement.querySelector('#editCommentBtn').addEventListener('click', async function(e){
-                commentElement.querySelector('#commentInputEdit').value=comment.content
-                commentElement.querySelector('#requestFormEdit').style.display='block'
-                commentElement.querySelector('#requestForm').style.display='none'
-            })
-
-            commentElement.querySelector('#openSubs').addEventListener('click', async function(e){
-                subComment.style.display='block'
-                commentElement.querySelector('#openSubs').style.display='none'
-                commentElement.querySelector('#closeSubs').style.display='block'
-
-            })
-
-            commentElement.querySelector('#closeSubs').addEventListener('click', async function(e){
-                subComment.style.display='none'
-                commentElement.querySelector('#openSubs').style.display='block'
-                commentElement.querySelector('#closeSubs').style.display='none'
-
-            })
-
-            commentElement.querySelector('#childCreateCommentBtn').addEventListener('click', async function(e){
-                const token=localStorage.getItem('token')
-                if(token){
-                    const content=commentElement.querySelector('#commentInput').value
-                    if(content !== ''){
-                        const data={
+            commentElement.querySelector('#childCreateCommentBtn').addEventListener('click', async function (e) {
+                const token = localStorage.getItem('token');
+                if (token) {
+                    const content = commentElement.querySelector('#commentInput').value;
+                    if (content !== '') {
+                        const data = {
                             content,
                             parentId
-                        }
+                        };
                         const GUIDPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-                        debugger
-                        const responseForAddComment = await fetch(`${getInspWithCons}/${consultId}/comment`, {
+                        const responseForAddComment = await fetch(`${getInspWithCons}/${consultationId}/comment`, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -174,29 +178,25 @@ export async function FillTheDetailsParams(id){
                             body: JSON.stringify(data),
                         });
 
-
                         const response = await responseForAddComment.json();
                         console.log(response);
-                        if(GUIDPattern.test(response)){
-                            location.reload()
+                        if (GUIDPattern.test(response)) {
+                            location.reload();
                         }
-                    }
-                    else{
-                        commentElement.querySelector('#childCommentError').style.display='block'
+                    } else {
+                        commentElement.querySelector('#childCommentError').style.display = 'block';
                     }
                 }
+            });
 
-            })
-
-            commentElement.querySelector('#childCreateCommentBtnEdit').addEventListener('click', async function(e){
-                const token=localStorage.getItem('token')
-                if(token){
-                    const content=commentElement.querySelector('#commentInputEdit').value
-                    if(content !== ''){
-                        const data={
+            commentElement.querySelector('#childCreateCommentBtnEdit').addEventListener('click', async function (e) {
+                const token = localStorage.getItem('token');
+                if (token) {
+                    const content = commentElement.querySelector('#commentInputEdit').value;
+                    if (content !== '') {
+                        const data = {
                             content
-                        }
-
+                        };
                         const responseForEditComment = await fetch(`${getInspWithCons}/comment/${parentId}`,{
                             method: 'PUT',
                             headers: {
@@ -204,55 +204,53 @@ export async function FillTheDetailsParams(id){
                                 'Authorization': `Bearer ${localStorage.getItem('token')}`
                             },
                             body: JSON.stringify(data),
-                        })
-                        const response=await responseForEditComment.json();
+                        });
 
-                        if(response=='200'){
-                            location.reload()
+                        if (responseForEditComment.status === 200) {
+                            location.reload();
                         }
+                    } else {
+                        commentElement.querySelector('#childEditCommentError').style.display = 'block';
                     }
-                    else{
-                        commentElement.querySelector('#childEditCommentError').style.display='block'
-                    }
-
                 }
-            })
-            if(comment.parentId!=null){
-                commentElement.querySelector('#subsBtn').style.display='none'
-                subComment.appendChild(commentElement)
+            });
 
-            }
-            else{
-                comments.appendChild(commentElement)
+            if (comment.parentId != null) {
+                commentElement.querySelector('#subsBtn').style.display = 'none';
+                subCommentElement.appendChild(commentElement);
+            } else {
+                commentsElement.appendChild(commentElement);
             }
         }
 
-
-        consultList.appendChild(consultElement)
+        consultationListElement.appendChild(consultationElement);
     }
-    for(let i=0; i<response.diagnoses.length;i++){
-        const diagnos = response.diagnoses[i]
-        const diagCard= await fetch ('/DetailsDirectory/diagnosesCardInDetails.html')
-        const diagToElement=await diagCard.text()
-        let typeDiag
-        const type=diagnos.type
-        switch (type){
+
+    for (let i = 0; i < inspectionResult.diagnoses.length; i++) {
+        const diagnosis = inspectionResult.diagnoses[i];
+        const diagnosisCard = await fetch('/DetailsDirectory/diagnosesCardInDetails.html');
+        const diagnosisHtml = await diagnosisCard.text();
+        let typeDiagnosis;
+        const type = diagnosis.type;
+
+        switch (type) {
             case 'Main':
-                typeDiag='Основной'
+                typeDiagnosis = 'Основной';
                 break;
             case 'Concomitant':
-                typeDiag='Сопутствующий'
+                typeDiagnosis = 'Сопутствующий';
                 break;
             case 'Complication':
-                typeDiag='Осложнение'
+                typeDiagnosis = 'Осложнение';
                 break;
         }
-        const diagElement=document.createElement('div')
-        diagElement.innerHTML=diagToElement
-        diagElement.querySelector('#mkbDiag').innerHTML+=diagnos.name
-        diagElement.querySelector('#typeDiag').innerHTML+=typeDiag
-        diagElement.querySelector('#decriptionDiag').innerHTML+=diagnos.description
 
-        Diags.appendChild(diagElement)
+        const diagnosisElement = document.createElement('div');
+        diagnosisElement.innerHTML = diagnosisHtml;
+        diagnosisElement.querySelector('#mkbDiag').innerHTML += diagnosis.name;
+        diagnosisElement.querySelector('#typeDiag').innerHTML += typeDiagnosis;
+        diagnosisElement.querySelector('#decriptionDiag').innerHTML += diagnosis.description;
+
+        diagnosticsElement.appendChild(diagnosisElement);
     }
 }
