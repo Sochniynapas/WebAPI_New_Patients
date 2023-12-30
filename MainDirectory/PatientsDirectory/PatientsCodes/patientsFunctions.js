@@ -21,7 +21,7 @@ export async function handleSortPatients(page, size) {
                 queryParams.append('tags', tag);
             }
         }
-        authorInput.trim() !== "" ? queryParams.append('authorInput', authorInput) : null;
+        authorInput.trim() !== "" ? queryParams.append('name', authorInput) : null;
         sortingSelect.trim() !== "" ? queryParams.append('sorting', sortingSelect) : null;
         scheduledVisits !== undefined ? queryParams.append('scheduledVisits', scheduledVisits) : null;
         onlyMine !== undefined ? queryParams.append('onlyMine', onlyMine) : null;
@@ -199,7 +199,7 @@ async function updatePageFromUrl() {
             queryParams.append('conclusions', conclusionsId);
         });
     }
-    authorInput.value.trim() !== "" ? queryParams.append('author', authorInput.value) : null;
+    authorInput.value.trim() !== "" ? queryParams.append('name', authorInput.value) : null;
     sortingSelect.value ? queryParams.append('sorting', sortingSelect.value) : null;
     scheduledVisits.checked !== undefined ? queryParams.append('scheduledVisits', scheduledVisits.checked) : null;
     onlyMine.checked !== undefined ? queryParams.append('onlyMine', onlyMine.checked) : null;

@@ -1,3 +1,6 @@
 #addInspectionConcrete:hover {
     cursor: pointer;
 }
+#inspectionDetails:hover {
+    cursor: pointer;
+}
