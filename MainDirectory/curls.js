@@ -9,3 +9,4 @@ export const getPatients = "https://mis-api.kreosoft.space/api/patient";
 export const patientRegister = "https://mis-api.kreosoft.space/api/patient";
 export const getPatient = "https://mis-api.kreosoft.space/api/patient/";
 export const getInspWithCons = "https://mis-api.kreosoft.space/api/consultation";
+export const getConcreteInspection = "https://mis-api.kreosoft.space/api/inspection/";

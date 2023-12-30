@@ -35,6 +35,12 @@ export function formatDateForServer(dateString) {
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
 }
+export async function refactorDate(inputDate){
+    const [year, month, day] = inputDate.split('-')
+    const Date=`${day}.${month}.${year}`
+
+    return Date
+}
 export async function clearTextIll(){
     document.querySelector('#ill').textContent = '';
 }
