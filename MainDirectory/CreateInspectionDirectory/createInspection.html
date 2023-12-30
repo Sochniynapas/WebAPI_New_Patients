@@ -1,0 +1,145 @@
+<div class="container">
+    <div class="h1 container">
+        Создание осмотра
+    </div>
+    <div class="container bg-light p-2" id="headContainer">
+        <div class="row">
+            <div class="h3 col" id="name"></div>
+            <div class="col text-secondary text-end" id="bDate"></div>
+        </div>
+        <div>
+            <div class="row col-md-4">
+                <div class="col-md-5">
+                    <label class="form-check-label">Первичный осмотр</label>
+                </div>
+                <div class="col-md-2 form-check form-switch d-flex justify-content-center">
+                    <input class="form-check-input" type="checkbox" role="switch" id="switchInspection">
+                </div>
+                <div class="col-md-5 text-end">
+                    <label class="form-check-label">Повторный осмотр</label>
+                </div>
+            </div>
+            <div>
+                <select id="mainInspect" class="d-none"></select>
+            </div>
+        </div>
+        <label for="date">Дата осмотра</label>
+        <input class="form-control w-25" id="date" type="datetime-local">
+    </div>
+    <div class="container bg-light p-2 mt-2">
+        <div class="h3 text-primary">
+            Жалобы
+        </div>
+        <textarea class="form-text w-100" id="complaint"></textarea>
+    </div>
+    <div class="container bg-light p-2 mt-2">
+        <div class="h3 text-primary">
+            Анамнез заболевания
+        </div>
+        <textarea class="form-text w-100" id="anam"></textarea>
+    </div>
+    <div class="container bg-light p-2 mt-2">
+        <div class="h3 text-primary">
+            Консультации
+        </div>
+        <div id="consultation">
+            <div class="container d-block" id="consContainer">
+
+            </div>
+        </div>
+        <div class="container bg-light p-2">
+            <div class="row">
+                <div class="col">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="needCons">
+                        <label class="form-check-label" for="needCons">Требуется консультация</label>
+                    </div>
+                </div>
+                <div class="col">
+                    <label class="text-secondary" for="speciality">Специальность</label>
+                    <select class="form-control" id="speciality"></select>
+
+                </div>
+            </div>
+            <label for="comment">Комментарий</label>
+            <textarea class="form-control" id="comment" disabled></textarea>
+        </div>
+        <button class="btn btn-primary" id="addConsultation" disabled>Добавить консультации</button>
+    </div>
+    <div class="container bg-light p-2 mt-2">
+        <div class="h3 text-primary">
+            Диагнозы
+        </div>
+        <div id="diagnosis">
+            <div class="container" id="diagnosisContainer">
+
+            </div>
+        </div>
+        <label class="text-secondary" for="DescriptionDiagnoses">Болезни</label>
+        <div id="DescriptionDiagnoses">
+            <select class="form-control" id="ill"></select>
+            <input class="form-control mt-1" id="description">
+        </div>
+        <label class="text-secondary" for="Types">Тип диагноза: </label>
+        <div id="Types">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="main" value="option1">
+                <label class="form-check-label" for="main">Основной</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="notMain" value="option2">
+                <label class="form-check-label" for="notMain">Сопутствующий</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="complication"
+                       value="option2">
+                <label class="form-check-label" for="complication">Осложнение</label>
+            </div>
+        </div>
+        <button class="btn btn-primary" id="addDiagnosis">Добавить диагноз</button>
+    </div>
+    <div class="container bg-light p-2 mt-2">
+        <div class="h3 text-primary">
+            Рекомендации
+        </div>
+        <textarea class="w-100" id="recommendations"></textarea>
+    </div>
+    <div class="container bg-light p-2 mt-2">
+        <div class="h3 text-primary">
+            Заключение
+        </div>
+        <div class="row mt-1">
+            <div class="col-6">
+                <label class="text-secondary" for="final">Заключение</label>
+                <select class="form-select" id="final">
+                    <option>Болезнь</option>
+                    <option>Выздоровел</option>
+                    <option>Смерть</option>
+                </select>
+            </div>
+            <div class="col-6">
+                <label class="text-secondary" id="labelDate" for="finalD">Дата следующего визита</label>
+                <input type="datetime-local" class="form-control nextDate" id="finalD">
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <button class="btn btn-primary" id="createInspection">Создать осмотр</button>
+        <button class="btn btn-secondary" id="cancel">Отмена</button>
+    </div>
+
+</div>
+<script type="module" src="/CreateInspectionDirectory/CreateInspectionsCodes/mainCreateInspection.js"></script>
+<link rel="stylesheet" href="/CreateInspectionDirectory/forSelect.css">
+<script>
+    $(document).ready(function () {
+        var checkbox = $('#needCons');
+        var addButton = $('#addConsultation');
+        var textContent = $('#comment');
+
+        checkbox.change(function () {
+            addButton.prop('disabled', !checkbox.is(':checked'));
+            textContent.prop('disabled', !checkbox.is(':checked'));
+        });
+    });
+</script>

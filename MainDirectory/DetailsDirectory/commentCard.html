@@ -1,0 +1,34 @@
+<div class="mt-1 border-bottom border-bottom-4">
+    <div class="d-flex">
+        <p class="comment-author" id="authorComment"></p>
+        <div id="titleBtn">
+            <i class="bi bi-pencil-fill me-1 ms-2" id="editCommentBtn"></i>
+        </div>
+        <span class="ms-2" id="changed" style="opacity:0.7; display: none;">(изменено)</span>
+
+    </div>
+    <p class="comment-content fs-5" id="comContent"></p>
+    <div class="d-flex">
+        <p class="comment-date me-2" id="date"></p>
+        <span id="request">Ответить</span>
+        <div id="subsBtn">
+            <span class="ms-2" id="openSubs"><i class="bi bi-chevron-down"></i>Показать ответы</span>
+            <span class="ms-2" id="closeSubs" style="display: none;"><i class="bi bi-chevron-up" ></i>Скрыть ответы</span>
+        </div>
+    </div>
+    <div id="requestForm" style="display: none;">
+        <div class="d-flex">
+            <input class="form-control" id="commentInput"placeholder="Оставьте комментарий" rows="3">
+            <button type="button" id="childCreateCommentBtn" class="btn btn-primary ms-2">Отправить</button>
+        </div>
+        <small id="childCommentError" class="text-danger" style="display: none;">Поле не должно быть пустым</small>
+    </div>
+    <div id="requestFormEdit" style="display:none">
+        <div class="d-flex">
+            <input class="form-control" id="commentInputEdit" rows="3">
+            <button type="button" id="childCreateCommentBtnEdit" class="btn btn-warning ms-2">Редактировать</button>
+        </div>
+        <small id="childEditCommentError" class="text-danger" style="display: none;">Поле не должно быть пустым</small>
+    </div>
+
+</div>
