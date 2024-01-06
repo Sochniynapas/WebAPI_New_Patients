@@ -1,9 +1,9 @@
-import {getDiagnosisDict} from "../../curls.js";
+import {getDiagnosisAll} from "../../curls.js";
 
 export async function fillTheParamsOfRedact(){
-    // document.getElementById('complaint').textContent = document.getElementById('complaintInCard').textContent;
-    // document.getElementById('anam').textContent = document.getElementById('anamnez').textContent;
-    // document.getElementById('recommendations').textContent = document.getElementById('recomend').textContent;
+    document.getElementById('complaint').textContent = document.getElementById('complaintInCard').textContent;
+    document.getElementById('anam').textContent = document.getElementById('anamnez').textContent;
+    document.getElementById('recommendations').textContent = document.getElementById('recomend').textContent;
     const conclusionText = document.getElementById('conclus').textContent;
     const diagsContainer = document.getElementById('Diags');
     const allDiagnosis = diagsContainer.children;
@@ -30,28 +30,18 @@ export async function fillTheParamsOfRedact(){
 
 export async function select2Making(){
 
-    const response = await fetch(`${getDiagnosisDict}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-    });
-    const data = await response.json();
-    console.log(data);
 
-    let ill = document.getElementById('illRedact');
-
+    let ill = document.getElementById('ill');
     $(ill).select2({
         ajax: {
-            url: `${getDiagnosisDict}`,
+            url: `${getDiagnosisAll}`,
             type: 'GET',
             dataType: 'json',
             data: function (params) {
                 return {
                     request: params.term,
                     page: 1,
-                    size: 5
+                    size: 5,
                 };
             },
             processResults: function (data) {
@@ -63,13 +53,17 @@ export async function select2Making(){
                     }))
                 };
             },
-            cache: true
+            cache: true,
+            search: true
         },
         placeholder: 'Выберите объект'
     });
     $(ill).on('change', function () {
         const selectedData = $(this).select2('data')[0];
         console.log(selectedData);
-        console.log(document.getElementById('illRedact').value);
+        console.log(document.getElementById('ill').value);
+    });
+    $('.select2-search__field').on('keydown', function (e) {
+        console.log('Key pressed:', e.keyCode);
     });
 }
