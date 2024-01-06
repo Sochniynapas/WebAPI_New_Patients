@@ -3,7 +3,8 @@
         <div class="card-body">
             <div class="col-md-12 row justify-content-between">
                 <h2 class="col-md-8 fw-bold fs-4" id="inspectTitle">Амбулаторный осмотр от </h2>
-                <button class="btn btn-primary col-md-2" data-bs-toggle="modal" data-bs-target="#registrationModal">
+                <button class="btn btn-primary col-md-2" data-bs-toggle="modal" id="redactBtn"
+                        data-bs-target="#registrationModal">
                     Редактировать
                 </button>
             </div>
@@ -30,24 +31,24 @@
                         <div class="h1 container">
                             Редактирование осмотра
                         </div>
-                        <div class="container bg-light p-2 mt-2">
-                            <div class="h3 text-primary">
-                                Жалобы
-                            </div>
-                            <textarea class="form-text w-100" id="complaint"></textarea>
-                        </div>
-                        <div class="container bg-light p-2 mt-2">
-                            <div class="h3 text-primary">
-                                Анамнез заболевания
-                            </div>
-                            <textarea class="form-text w-100" id="anam"></textarea>
-                        </div>
-                        <div class="container bg-light p-2 mt-2">
-                            <div class="h3 text-primary">
-                                Рекомендации
-                            </div>
-                            <textarea class="w-100" id="recommendations"></textarea>
-                        </div>
+<!--                        <div class="container bg-light p-2 mt-2">-->
+<!--                            <div class="h3 text-primary">-->
+<!--                                Жалобы-->
+<!--                            </div>-->
+<!--                            <textarea class="form-text w-100" id="complaint"></textarea>-->
+<!--                        </div>-->
+<!--                        <div class="container bg-light p-2 mt-2">-->
+<!--                            <div class="h3 text-primary">-->
+<!--                                Анамнез заболевания-->
+<!--                            </div>-->
+<!--                            <textarea class="form-text w-100" id="anam"></textarea>-->
+<!--                        </div>-->
+<!--                        <div class="container bg-light p-2 mt-2">-->
+<!--                            <div class="h3 text-primary">-->
+<!--                                Рекомендации-->
+<!--                            </div>-->
+<!--                            <textarea class="form-text w-100" id="recommendations"></textarea>-->
+<!--                        </div>-->
                         <div class="container bg-light p-2 mt-2">
                             <div class="h3 text-primary">
                                 Диагнозы
@@ -59,7 +60,7 @@
                             </div>
                             <label class="text-secondary" for="DescriptionDiagnoses">Болезни</label>
                             <div id="DescriptionDiagnoses">
-                                <select class="form-control" id="ill"></select>
+                                <select class="form-control" id="illRedact"></select>
                                 <input class="form-control mt-1" id="description">
                             </div>
                             <label class="text-secondary" for="Types">Тип диагноза: </label>
@@ -91,14 +92,18 @@
                                 <div class="col-6">
                                     <label class="text-secondary" for="final">Заключение</label>
                                     <select class="form-select" id="final">
-                                        <option>Болезнь</option>
-                                        <option>Выздоровел</option>
-                                        <option>Смерть</option>
+                                        <option value="Disease">Болезнь</option>
+                                        <option value="Recovery">Выздоровление</option>
+                                        <option value="Death">Смерть</option>
                                     </select>
                                 </div>
-                                <div class="col-6">
-                                    <label class="text-secondary" id="labelDate" for="finalD">Дата следующего
-                                        визита</label>
+                                <div class="col-6" id="labelOfConc">
+                                    <div id="nextVisitRedact">
+                                        Дата следующего визита:
+                                    </div>
+                                    <div id="deathTimeRedact" style="display: none;">
+                                        Дата смерти:
+                                    </div>
                                     <input type="datetime-local" class="form-control nextDate" id="finalD">
                                 </div>
                             </div>
@@ -166,4 +171,5 @@
 
     </div>
 </div>
+<link rel="stylesheet" href="/DetailsDirectory/forSelect2InRedact.css">
 <script type="module" src="/DetailsDirectory/DetailsCodes/mainDetails.js"></script>
