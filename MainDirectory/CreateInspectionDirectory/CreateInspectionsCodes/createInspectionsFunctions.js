@@ -248,13 +248,12 @@ async function checkLevel(level) {
     }
 
 }
-async function checkConclusion(conclusion){
-    debugger
+export async function checkConclusion(conclusion){
     switch (conclusion){
         case "Болезнь":{
             return 'Disease';
         }
-        case "Выздоровел":{
+        case "Выздоровление":{
             return 'Recovery';
         }
         case "Смерть":{

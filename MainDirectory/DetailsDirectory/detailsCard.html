@@ -1,3 +1,4 @@
+
 <div class="container">
     <div class="card bg-light mt-3">
         <div class="card-body">
@@ -22,7 +23,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="registrationModal" tabindex="-1" aria-labelledby="registrationModalLabel"
+    <div class="modal fade" id="registrationModal" aria-labelledby="registrationModalLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
@@ -92,24 +93,21 @@
                                 <div class="col-6">
                                     <label class="text-secondary" for="final">Заключение</label>
                                     <select class="form-select" id="final">
-                                        <option value="Disease">Болезнь</option>
-                                        <option value="Recovery">Выздоровление</option>
-                                        <option value="Death">Смерть</option>
+                                        <option>Болезнь</option>
+                                        <option>Выздоровление</option>
+                                        <option>Смерть</option>
                                     </select>
                                 </div>
                                 <div class="col-6" id="labelOfConc">
-                                    <div id="nextVisitRedact">
+                                    <div id="labelDate" class="d-none text-secondary">
                                         Дата следующего визита:
                                     </div>
-                                    <div id="deathTimeRedact" style="display: none;">
-                                        Дата смерти:
-                                    </div>
-                                    <input type="datetime-local" class="form-control nextDate" id="finalD">
+                                    <input type="datetime-local" class="form-control nextDate d-none" id="finalD">
                                 </div>
                             </div>
                         </div>
-                        <div class="container">
-                            <button class="btn btn-primary" id="createInspection">Создать осмотр</button>
+                        <div class="container d-flex align-items-center">
+                            <button class="btn btn-primary" id="saveChanges">Сохранить изменения</button>
                             <button class="btn btn-secondary" id="cancel">Отмена</button>
                         </div>
                     </div>

@@ -1,6 +1,9 @@
 import {LoadPatientDetails} from "./inspectDetailsFunctions.js";
-import {fillTheParamsOfRedact, select2Making} from "./redactInspectionFunctions.js";
-import {createDiagnoses} from "../../CreateInspectionDirectory/CreateInspectionsCodes/createInspectionsFunctions.js";
+import {fillTheParamsOfRedact, redactInspection, select2Making} from "./redactInspectionFunctions.js";
+import {
+    changeDate,
+    createDiagnoses
+} from "../../CreateInspectionDirectory/CreateInspectionsCodes/createInspectionsFunctions.js";
 
 
 const currentUrl = window.location.href;
@@ -15,9 +18,16 @@ if (guidIndex > 0 && guidIndex < pathParts.length) {
     document.getElementById('redactBtn').addEventListener('click', async()=>{
 
         await fillTheParamsOfRedact();
+        document.getElementById('final').addEventListener('change', async () => {
+            await changeDate();
+        })
         await select2Making();
         document.getElementById('addDiagnosis').addEventListener('click', async()=>{
             await createDiagnoses();
+        })
+        document.getElementById('saveChanges').addEventListener('click', async()=>{
+            debugger
+            await redactInspection(guidOrWhateverComesNext);
         })
     })
 } else {
