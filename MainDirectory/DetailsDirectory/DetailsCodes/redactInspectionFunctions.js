@@ -18,18 +18,19 @@ export async function fillTheParamsOfRedact(){
             if (finalSelect.options[i].text !== 'Выздоровление'){
                 document.getElementById('labelDate').classList.replace('d-none', 'd-block');
                 document.getElementById('finalD').classList.replace('d-none', 'd-block');
-                finalSelect.selectedIndex = i;
-                break;
             }
+            finalSelect.selectedIndex = i;
+            break;
 
         }
     }
-
-    if(document.getElementById('deathTime').value !== undefined){
+    if(document.getElementById('deathTime')){
         await changeDate();
     }
+    document.getElementById('diagnosisContainer').innerHTML = "";
     for (let i = 0; i < allDiagnosis.length; i++){
-        document.getElementById('diagnosisContainer').appendChild(allDiagnosis[i]);
+        const clonedDiagnosis = allDiagnosis[i].cloneNode(true);
+        document.getElementById('diagnosisContainer').appendChild(clonedDiagnosis);
     }
 }
 
@@ -123,4 +124,7 @@ export async function redactInspection(id) {
         },
         body: JSON.stringify(formData),
     })
+    if(response.ok){
+        window.location.reload();
+    }
 }

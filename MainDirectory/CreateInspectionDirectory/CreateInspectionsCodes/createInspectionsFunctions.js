@@ -272,7 +272,6 @@ export async function createDiagnoses() {
     console.log(labelText);
 
     postHTML.innerHTML = postString;
-
     postHTML.querySelector('#type').innerHTML += " " + labelText;
     postHTML.querySelector('#type').value = await checkLevel(labelText);
     postHTML.querySelector('#headDiagnosis').innerHTML = document.getElementById('ill').textContent;

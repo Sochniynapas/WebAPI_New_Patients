@@ -106,9 +106,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="container d-flex align-items-center">
-                            <button class="btn btn-primary" id="saveChanges">Сохранить изменения</button>
-                            <button class="btn btn-secondary" id="cancel">Отмена</button>
+                        <div class="container text-center mt-5">
+                            <button class="btn btn-primary me-2" id="saveChanges">Сохранить изменения</button>
+                            <button class="btn btn-secondary ms-2" id="cancel">Отмена</button>
                         </div>
                     </div>
                 </div>
@@ -169,5 +169,12 @@
 
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+        $('#cancel').on('click', function () {
+            $('#registrationModal').modal('hide');
+        });
+    });
+</script>
 <link rel="stylesheet" href="/DetailsDirectory/forSelect2InRedact.css">
 <script type="module" src="/DetailsDirectory/DetailsCodes/mainDetails.js"></script>

@@ -67,8 +67,6 @@ export async function LoadPatientDetails(id) {
         document.getElementById('nextVisit').style.display = 'none';
         document.getElementById('deathTime').style.display = 'block';
         document.getElementById('time').textContent = " " + deathDate + " " + deatTime
-        const conclusionElement = document.getElementById('conclus');
-        conclusionElement.innerHTML += conclusionText;
     }
     else if(inspectionResult.conclusion === 'Recovery'){
 

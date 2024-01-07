@@ -26,7 +26,6 @@ if (guidIndex > 0 && guidIndex < pathParts.length) {
             await createDiagnoses();
         })
         document.getElementById('saveChanges').addEventListener('click', async()=>{
-            debugger
             await redactInspection(guidOrWhateverComesNext);
         })
     })
