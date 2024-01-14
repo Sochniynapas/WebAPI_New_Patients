@@ -1,4 +1,5 @@
 import {getSpecialities, registration} from "../../curls.js";
+import {registerValidation} from "../../Validation/validators.js";
 
 export async function getSpecialtiesList(){
 
@@ -48,31 +49,35 @@ export async function getSpecialtiesList(){
 }
 export async function userRegistration(){
     try {
-        const formData = {
-            name: document.getElementById('fullName').value,
-            password: document.getElementById('password').value,
-            email: document.getElementById('email').value,
-            birthday: document.getElementById('birthDate').value,
-            gender: document.getElementById('gender').value,
-            phone: document.getElementById('phoneNumber').value,
-            speciality: document.getElementById('speciality').value
-        };
+        if(await registerValidation()) {
+            const formData = {
+                name: document.getElementById('fullName').value,
+                password: document.getElementById('password').value,
+                email: document.getElementById('email').value,
+                birthday: document.getElementById('birthDate').value,
+                gender: document.getElementById('gender').value,
+                phone: document.getElementById('phoneNumber').value,
+                speciality: document.getElementById('speciality').value
+            };
 
-        debugger
-        const response = await fetch(`${registration}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData),
-        })
-        const data = await response.json();
-        if(response.ok){
-            localStorage.setItem('token', data.token);
-            window.location.href = '/';
+            debugger
+            const response = await fetch(`${registration}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            })
+            const data = await response.json();
+            if (response.ok) {
+                localStorage.setItem('token', data.token);
+                window.location.href = '/';
+            } else {
+                throw new Error(`${response}`);
+            }
         }
-        else {
-            throw new Error(`${response}`);
+        else{
+            throw new Error("Произошла ошибка валидации");
         }
 
     }

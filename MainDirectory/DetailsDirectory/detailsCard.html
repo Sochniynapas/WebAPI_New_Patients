@@ -1,9 +1,11 @@
+
 <div class="container">
     <div class="card bg-light mt-3">
         <div class="card-body">
             <div class="col-md-12 row justify-content-between">
                 <h2 class="col-md-8 fw-bold fs-4" id="inspectTitle">Амбулаторный осмотр от </h2>
-                <button class="btn btn-primary col-md-2" data-bs-toggle="modal" data-bs-target="#registrationModal">
+                <button class="btn btn-primary col-md-2" data-bs-toggle="modal" id="redactBtn"
+                        data-bs-target="#registrationModal">
                     Редактировать
                 </button>
             </div>
@@ -21,7 +23,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="registrationModal" tabindex="-1" aria-labelledby="registrationModalLabel"
+    <div class="modal fade" id="registrationModal" aria-labelledby="registrationModalLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
@@ -46,14 +48,14 @@
                             <div class="h3 text-primary">
                                 Рекомендации
                             </div>
-                            <textarea class="w-100" id="recommendations"></textarea>
+                            <textarea class="form-text w-100" id="recommendations"></textarea>
                         </div>
                         <div class="container bg-light p-2 mt-2">
                             <div class="h3 text-primary">
                                 Диагнозы
                             </div>
                             <div id="diagnosis">
-                                <div class="container" id="diagnosisContainer">
+                                <div class="container mt-3" id="diagnosisContainer">
 
                                 </div>
                             </div>
@@ -92,20 +94,21 @@
                                     <label class="text-secondary" for="final">Заключение</label>
                                     <select class="form-select" id="final">
                                         <option>Болезнь</option>
-                                        <option>Выздоровел</option>
+                                        <option>Выздоровление</option>
                                         <option>Смерть</option>
                                     </select>
                                 </div>
-                                <div class="col-6">
-                                    <label class="text-secondary" id="labelDate" for="finalD">Дата следующего
-                                        визита</label>
-                                    <input type="datetime-local" class="form-control nextDate" id="finalD">
+                                <div class="col-6" id="labelOfConc">
+                                    <div id="labelDate" class="d-none text-secondary">
+                                        Дата следующего визита:
+                                    </div>
+                                    <input type="datetime-local" class="form-control nextDate d-none" id="finalD">
                                 </div>
                             </div>
                         </div>
-                        <div class="container">
-                            <button class="btn btn-primary" id="createInspection">Создать осмотр</button>
-                            <button class="btn btn-secondary" id="cancel">Отмена</button>
+                        <div class="container text-center mt-5">
+                            <button class="btn btn-primary me-2" id="saveChanges">Сохранить изменения</button>
+                            <button class="btn btn-secondary ms-2" id="cancel">Отмена</button>
                         </div>
                     </div>
                 </div>
@@ -166,4 +169,14 @@
 
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+        $('#cancel').on('click', function () {
+            $('#registrationModal').modal('hide');
+        });
+    });
+</script>
+<link rel="stylesheet" href="/DetailsDirectory/forSelect2InRedact.css">
 <script type="module" src="/DetailsDirectory/DetailsCodes/mainDetails.js"></script>
+<script type="module" src="/Validation/validators.js"></script>
+

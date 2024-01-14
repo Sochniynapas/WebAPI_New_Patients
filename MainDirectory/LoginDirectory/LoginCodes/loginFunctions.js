@@ -1,7 +1,8 @@
 import {login} from "../../curls.js";
+import {loginValidation, wrongLoginOrPassword} from "../../Validation/validators.js";
 
 export async function userLogin() {
-    try {
+    if (await loginValidation()) {
         const formData = {
             email: document.getElementById('email').value,
             password: document.getElementById('password').value
@@ -19,8 +20,12 @@ export async function userLogin() {
             localStorage.setItem('token', data.token);
             window.location.href = '/';
         }
-    } catch (error) {
-        console.error('Ошибка входа')
+        else if (response.status === 400){
+            await wrongLoginOrPassword();
+        }
+    } else {
+        throw new Error("Ошибка Email или Пароля");
     }
+
 
 }
