@@ -45,7 +45,58 @@ export async function registerValidation(){
     }
     return allRight;
 }
+export async function addDiagnosisValidation(){
+    let radioButtons = document.getElementsByName("inlineRadioOptions");
+    let ill = document.getElementById("select2-ill-container");
+    let description = document.getElementById("description");
+    let allRight = true;
 
+    clearErrorMessages();
+    if(!isValidDiagnosisType(radioButtons)){
+        displayError(document.getElementById('Types'), "Выберите тип диагноза");
+        allRight = false;
+    }
+    if(isValidSpeciality(ill)){
+        displayError(ill, "Выберите диагоноз");
+        allRight = false;
+    }
+    if(!isValidForDescription(description.value)){
+        displayError(description, "Напишите описание");
+        allRight = false;
+    }
+    return allRight;
+
+}
+
+export async function redactInspectionValidation(){
+    let complaint = document.getElementById('complaint');
+    let anames = document.getElementById('anam');
+    let recommendation = document.getElementById('recommendations');
+    let finalD = document.getElementById('finalD');
+    let allRight = true;
+    clearErrorMessages();
+    if(isValidCompAnamRecomend(complaint.value)){
+        displayError(complaint, "Напишите жалобы");
+        allRight = false;
+    }
+    if(isValidCompAnamRecomend(anames.value)){
+        displayError(anames, "Напишите анамез заболевания");
+        allRight = false;
+    }
+    if(isValidCompAnamRecomend(recommendation.value)){
+        displayError(recommendation, "Напишите рекомендации");
+        allRight = false;
+    }
+    debugger
+    if(!finalD.classList.contains('d-none')){
+        if(!isValidFinalDate(finalD.value)) {
+            displayError(finalD, "Дата заключения не может быть больше сегодняшней");
+            allRight = false;
+        }
+    }
+
+    return allRight;
+}
 
 export async function loginValidation(){
     let email = document.getElementById('email');
@@ -73,13 +124,28 @@ export async function wrongLoginOrPassword(){
     displayError(password, 'Ошибка в Email или пароля');
 
 }
+function isValidFinalDate(date){
+    return date < new Date();
+}
+function isValidDiagnosisType(radioButtons){
+
+    for (let i = 0; i < radioButtons.length; i++) {
+        if (radioButtons[i].checked) {
+            return true;
+
+        }
+    }
+    return false;
+}
 function isValidFullName(fullName) {
     return fullName.trim() !== '';
 }
-function isValidCompAnamRecomend(fullName) {
-    return fullName.trim() !== '';
+function isValidCompAnamRecomend(compAnamRecomend) {
+    return compAnamRecomend.trim() !== '';
 }
-
+function isValidForDescription(desc){
+    return desc.trim() !== '';
+}
 function isValidGender(gender) {
     return gender !== '';
 }
@@ -97,7 +163,12 @@ function isValidPhoneNumber(phoneNumber) {
 }
 
 function isValidSpeciality(speciality) {
-    return speciality !== '';
+    if(speciality.textContent === '' || speciality.textContent === "Выберите объект"){
+        return true;
+    }
+    else{
+        return false;
+    }
 }
 
 function isValidEmail(email) {

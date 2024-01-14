@@ -1,5 +1,6 @@
 import {getDiagnosisDict, getPatients, getSpecialities} from "../../curls.js";
 import {formatDateForServer} from "../../MainCodes/mainFunctions.js";
+import {addDiagnosisValidation} from "../../Validation/validators.js";
 
 export async function changeDate() {
     const conclusion = document.querySelector('#final').value;
@@ -263,23 +264,29 @@ export async function checkConclusion(conclusion){
 
 }
 export async function createDiagnoses() {
-    const diagnosisContainer = document.getElementById('diagnosisContainer');
-    const response = await fetch('/CreateInspectionDirectory/diagnosesCard.html');
-    const postString = await response.text();
-    const postHTML = document.createElement('div');
-    const selectedRadio = document.querySelector('input[name="inlineRadioOptions"]:checked');
-    const labelText = document.querySelector('label[for="' + selectedRadio.id + '"]').textContent;
-    console.log(labelText);
+    debugger
+    if(await addDiagnosisValidation()) {
+        const diagnosisContainer = document.getElementById('diagnosisContainer');
+        const response = await fetch('/CreateInspectionDirectory/diagnosesCard.html');
+        const postString = await response.text();
+        const postHTML = document.createElement('div');
+        const selectedRadio = document.querySelector('input[name="inlineRadioOptions"]:checked');
+        const labelText = document.querySelector('label[for="' + selectedRadio.id + '"]').textContent;
+        console.log(labelText);
 
-    postHTML.innerHTML = postString;
-    postHTML.querySelector('#type').innerHTML += " " + labelText;
-    postHTML.querySelector('#type').value = await checkLevel(labelText);
-    postHTML.querySelector('#headDiagnosis').innerHTML = document.getElementById('ill').textContent;
-    postHTML.querySelector('#headDiagnosis').value = document.getElementById('ill').value;
-    postHTML.querySelector('#desc').innerHTML += " " + document.getElementById('description').value;
-    postHTML.querySelector('#desc').value = document.getElementById('description').value;
-    console.log(postHTML);
-    diagnosisContainer.appendChild(postHTML);
+        postHTML.innerHTML = postString;
+        postHTML.querySelector('#type').innerHTML += " " + labelText;
+        postHTML.querySelector('#type').value = await checkLevel(labelText);
+        postHTML.querySelector('#headDiagnosis').innerHTML = document.getElementById('ill').textContent;
+        postHTML.querySelector('#headDiagnosis').value = document.getElementById('ill').value;
+        postHTML.querySelector('#desc').innerHTML += " " + document.getElementById('description').value;
+        postHTML.querySelector('#desc').value = document.getElementById('description').value;
+        console.log(postHTML);
+        diagnosisContainer.appendChild(postHTML);
+    }
+    else{
+        throw new Error("Произошла ошибка валидации");
+    }
 }
 
 export async function createConsult() {
