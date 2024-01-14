@@ -91,6 +91,9 @@ export async function createInspection(data) {
     if(final === 'Смерть'){
         postHTML.querySelector('#inspection').classList.replace('bg-light', 'bg-danger');
     }
+    postHTML.querySelector('#inspectionDetails').addEventListener('click', async()=>{
+        window.location.href=`/inspection/${data.id}`;
+    });
     postHTML.querySelector('#date').textContent = date;
     postHTML.querySelector('#final').textContent += " " + final;
     postHTML.querySelector('#diagnose').innerHTML += " " + mainDiagnosis;

@@ -8,7 +8,7 @@ export async function registerValidation(){
     let password = document.getElementById('password');
     let allRight = true;
     clearErrorMessages();
-
+    debugger
     if (!isValidFullName(fullName.value)) {
         displayError(fullName, 'Пожалуйста, введите корректное имя.');
         allRight = false;
@@ -28,10 +28,11 @@ export async function registerValidation(){
         displayError(phoneNumber, 'Пожалуйста, введите телефон в формате +7 (xxx) xxx-xx-xx.');
         allRight = false;
     }
-
-    if (!isValidSpeciality(speciality.value)) {
-        displayError(speciality, 'Пожалуйста, выберите специальность.');
-        allRight = false;
+    if(speciality !== null) {
+        if (!isValidSpeciaпшеlity(speciality.value)) {
+            displayError(speciality, 'Пожалуйста, выберите специальность.');
+            allRight = false;
+        }
     }
 
     if (!isValidEmail(email.value)) {
@@ -39,9 +40,11 @@ export async function registerValidation(){
         allRight = false;
     }
 
-    if (!isValidPassword(password.value)) {
-        displayError(password, 'Пароль должен содержать заглавную букву, цифры и быть длиннее 5 символов.');
-        allRight = false;
+    if(password !== null) {
+        if (!isValidPassword(password.value)) {
+            displayError(password, 'Пароль должен содержать заглавную букву, цифры и быть длиннее 5 символов.');
+            allRight = false;
+        }
     }
     return allRight;
 }
@@ -67,7 +70,35 @@ export async function addDiagnosisValidation(){
     return allRight;
 
 }
+export async function createInspectionValidation(){
+    let complaint = document.getElementById('complaint');
+    let anames = document.getElementById('anam');
+    let recommendation = document.getElementById('recommendations');
+    let finalD = document.getElementById('date');
+    let allRight = true;
+    clearErrorMessages();
+    if(!isValidCompAnamRecomend(complaint.value)){
+        displayError(complaint, "Напишите жалобы");
+        allRight = false;
+    }
+    if(!isValidCompAnamRecomend(anames.value)){
+        displayError(anames, "Напишите анамез заболевания");
+        allRight = false;
+    }
+    if(!isValidCompAnamRecomend(recommendation.value)){
+        displayError(recommendation, "Напишите рекомендации");
+        allRight = false;
+    }
+    debugger
+    if(!finalD.classList.contains('d-none')){
+        if(!isValidFinalDate(finalD.value)) {
+            displayError(finalD, "Дата осмотра не может быть больше сегодняшней");
+            allRight = false;
+        }
+    }
 
+    return allRight;
+}
 export async function redactInspectionValidation(){
     let complaint = document.getElementById('complaint');
     let anames = document.getElementById('anam');
@@ -75,15 +106,15 @@ export async function redactInspectionValidation(){
     let finalD = document.getElementById('finalD');
     let allRight = true;
     clearErrorMessages();
-    if(isValidCompAnamRecomend(complaint.value)){
+    if(!isValidCompAnamRecomend(complaint.value)){
         displayError(complaint, "Напишите жалобы");
         allRight = false;
     }
-    if(isValidCompAnamRecomend(anames.value)){
+    if(!isValidCompAnamRecomend(anames.value)){
         displayError(anames, "Напишите анамез заболевания");
         allRight = false;
     }
-    if(isValidCompAnamRecomend(recommendation.value)){
+    if(!isValidCompAnamRecomend(recommendation.value)){
         displayError(recommendation, "Напишите рекомендации");
         allRight = false;
     }

@@ -1,6 +1,10 @@
 import {getDiagnosisDict, getPatients, getSpecialities} from "../../curls.js";
 import {formatDateForServer} from "../../MainCodes/mainFunctions.js";
-import {addDiagnosisValidation} from "../../Validation/validators.js";
+import {
+    addDiagnosisValidation,
+    createInspectionValidation,
+    redactInspectionValidation
+} from "../../Validation/validators.js";
 
 export async function changeDate() {
     const conclusion = document.querySelector('#final').value;
@@ -222,17 +226,21 @@ export async function createInspection() {
 
     };
     console.log(formData);
-
-    const response = await fetch(`${getPatients}/${localStorage.getItem('patientId')}/inspections`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify(formData),
-    })
-    const data = await response.json();
-    console.log(data);
+    if(await createInspectionValidation()) {
+        const response = await fetch(`${getPatients}/${localStorage.getItem('patientId')}/inspections`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify(formData),
+        })
+        const data = await response.json();
+        console.log(data);
+    }
+    else{
+        throw new Error("Ошибка валидации")
+    }
 }
 
 async function checkLevel(level) {
