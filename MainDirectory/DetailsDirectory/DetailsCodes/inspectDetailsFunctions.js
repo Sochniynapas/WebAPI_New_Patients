@@ -60,9 +60,24 @@ export async function LoadPatientDetails(id) {
     const conclusionElement = document.getElementById('conclus');
     conclusionElement.innerHTML += conclusionText;
 
-    if (inspectionResult.conclusion == 'Death') {
+
+    if (inspectionResult.conclusion === 'Death') {
+        const deathDate = await refactorDate(inspectionResult.deathDate.substring(0, 10));
+        const deatTime = inspectionResult.deathDate.substring(11, 16);
         document.getElementById('nextVisit').style.display = 'none';
         document.getElementById('deathTime').style.display = 'block';
+        document.getElementById('time').textContent = " " + deathDate + " " + deatTime
+    }
+    else if(inspectionResult.conclusion === 'Recovery'){
+
+        document.getElementById('nextVisit').style.display = 'none';
+    }
+    else{
+
+        const deathDate = await refactorDate(inspectionResult.nextVisitDate.substring(0, 10));
+        const deatTime = inspectionResult.nextVisitDate.substring(11, 16);
+        document.getElementById('time').textContent = " " + deathDate + " " + deatTime
+        document.getElementById('time').textContent = " " + deathDate + " " + deatTime
     }
 
     const diagnosticsElement = document.getElementById('Diags');

@@ -2,7 +2,6 @@ import {getDiagnosisDict, getPatients, getSpecialities} from "../../curls.js";
 import {formatDateForServer} from "../../MainCodes/mainFunctions.js";
 
 export async function changeDate() {
-    debugger
     const conclusion = document.querySelector('#final').value;
     document.getElementById('labelDate').classList.replace('d-none', 'd-block');
     document.getElementById('finalD').classList.replace('d-none', 'd-block');
@@ -30,7 +29,6 @@ export async function fillTheParams() {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
     });
-    debugger
     const ff = await fetch(`${getPatients}/${localStorage.getItem('patientId')}/inspections/search`, {
         method: 'GET',
         headers: {
@@ -109,7 +107,6 @@ export async function fillTheParams() {
         placeholder: 'Выберите объект'
     });
     $(speciality).on('change', function () {
-        debugger
         const selectedData = $(this).select2('data')[0];
         console.log(selectedData);
         console.log(document.getElementById('speciality').value);
@@ -141,7 +138,6 @@ export async function fillTheParams() {
         placeholder: 'Выберите объект'
     });
     $(ill).on('change', function () {
-        debugger
         const selectedData = $(this).select2('data')[0];
         console.log(selectedData);
         console.log(document.getElementById('ill').value);
@@ -208,7 +204,6 @@ export async function createInspection() {
         }
 
     });
-    debugger
     const deathDate = document.querySelector('.deathDate') ? document.getElementById('finalD').value : undefined;
     const nextDate = document.querySelector('.nextDate') ? document.getElementById('finalD').value : undefined;
     const selectedData = $(document.getElementById('mainInspect')).select2('data')[0] === undefined? undefined : $(document.getElementById('mainInspect')).select2('data')[0].id;
@@ -253,7 +248,7 @@ async function checkLevel(level) {
     }
 
 }
-async function checkConclusion(conclusion){
+export async function checkConclusion(conclusion){
     switch (conclusion){
         case "Болезнь":{
             return 'Disease';
@@ -268,7 +263,6 @@ async function checkConclusion(conclusion){
 
 }
 export async function createDiagnoses() {
-    debugger
     const diagnosisContainer = document.getElementById('diagnosisContainer');
     const response = await fetch('/CreateInspectionDirectory/diagnosesCard.html');
     const postString = await response.text();
@@ -278,7 +272,6 @@ export async function createDiagnoses() {
     console.log(labelText);
 
     postHTML.innerHTML = postString;
-
     postHTML.querySelector('#type').innerHTML += " " + labelText;
     postHTML.querySelector('#type').value = await checkLevel(labelText);
     postHTML.querySelector('#headDiagnosis').innerHTML = document.getElementById('ill').textContent;
