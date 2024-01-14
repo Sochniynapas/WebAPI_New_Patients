@@ -28,6 +28,7 @@ export async function fillTheParamsOfRedact(){
         await changeDate();
     }
     document.getElementById('diagnosisContainer').innerHTML = "";
+
     for (let i = 0; i < allDiagnosis.length; i++){
         const clonedDiagnosis = allDiagnosis[i].cloneNode(true);
         document.getElementById('diagnosisContainer').appendChild(clonedDiagnosis);

@@ -278,6 +278,7 @@ export async function createDiagnoses() {
     postHTML.querySelector('#headDiagnosis').value = document.getElementById('ill').value;
     postHTML.querySelector('#desc').innerHTML += " " + document.getElementById('description').value;
     postHTML.querySelector('#desc').value = document.getElementById('description').value;
+    console.log(postHTML);
     diagnosisContainer.appendChild(postHTML);
 }
 
