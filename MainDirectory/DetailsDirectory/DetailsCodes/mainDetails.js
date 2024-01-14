@@ -18,16 +18,16 @@ if (guidIndex > 0 && guidIndex < pathParts.length) {
     document.getElementById('redactBtn').addEventListener('click', async()=>{
 
         await fillTheParamsOfRedact();
-        document.getElementById('final').addEventListener('change', async () => {
-            await changeDate();
-        })
-        await select2Making();
-        document.getElementById('addDiagnosis').addEventListener('click', async()=>{
-            await createDiagnoses();
-        })
-        document.getElementById('saveChanges').addEventListener('click', async()=>{
-            await redactInspection(guidOrWhateverComesNext);
-        })
+    })
+    document.getElementById('final').addEventListener('change', async () => {
+        await changeDate();
+    })
+    await select2Making();
+    document.getElementById('saveChanges').addEventListener('click', async()=>{
+        await redactInspection(guidOrWhateverComesNext);
+    })
+    document.getElementById('addDiagnosis').addEventListener('click', async()=>{
+        await createDiagnoses();
     })
 } else {
     console.log('URL не содержит /patient/');

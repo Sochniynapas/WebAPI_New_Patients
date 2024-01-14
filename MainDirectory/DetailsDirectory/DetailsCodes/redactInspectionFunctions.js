@@ -3,6 +3,7 @@ import {
     changeDate,
     checkConclusion
 } from "../../CreateInspectionDirectory/CreateInspectionsCodes/createInspectionsFunctions.js";
+import {redactInspectionValidation} from "../../Validation/validators.js";
 
 export async function fillTheParamsOfRedact(){
     document.getElementById('complaint').textContent = document.getElementById('complaintInCard').textContent;
@@ -28,6 +29,7 @@ export async function fillTheParamsOfRedact(){
         await changeDate();
     }
     document.getElementById('diagnosisContainer').innerHTML = "";
+
     for (let i = 0; i < allDiagnosis.length; i++){
         const clonedDiagnosis = allDiagnosis[i].cloneNode(true);
         document.getElementById('diagnosisContainer').appendChild(clonedDiagnosis);
@@ -115,16 +117,20 @@ export async function redactInspection(id) {
 
     };
     console.log(formData);
-
-    const response = await fetch(`${getConcreteInspection}${id}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify(formData),
-    })
-    if(response.ok){
-        window.location.reload();
+    if(await redactInspectionValidation()) {
+        const response = await fetch(`${getConcreteInspection}${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify(formData),
+        })
+        if (response.ok) {
+            window.location.reload();
+        }
+    }
+    else{
+        throw new Error("Произошла ошибка валидации");
     }
 }
